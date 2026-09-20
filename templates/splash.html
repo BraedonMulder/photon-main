@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Photon</title>
+
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+
+    <img src="/static/logo.jpg" alt="Photon Logo">
+
+    <script>
+        setTimeout(function() {
+            window.location.href = "/players";
+        }, 3000);
+    </script>
+
+</body>
+</html>
