@@ -10,4 +10,4 @@ def splash():
 def players():
     return render_template("player_entry.html")
 
-app.run()
+app.run(host='127.0.0.1', port = 5000, debug=False)

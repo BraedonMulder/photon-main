@@ -57,10 +57,22 @@ playerContainer_red.addEventListener('change', function(event) // change fires o
     // detect change to an ID field
     if(event.target.classList.contains('player-id-field'))
     {
-        if(!idChangeAttempt(event.target.id.slice(20), 'red', event.target.value))
+        let entryIndex = event.target.id.slice(20);
+
+        if(!idChangeAttempt(entryIndex, 'red', event.target.value))
         {
-            event.target.value = '';
+            event.target.value = '';                           // sets ID field to empty
+            players_red[entryIndex].nameField.readOnly = true; // sets name field to read only
+            players_red[entryIndex].nameField.value = '';      // sets name field to empty
         }
+    }
+
+    // detect change to a name field
+    if(event.target.classList.contains('player-name-field'))
+    {
+        let entryIndex = event.target.id.slice(22);
+        
+        console.log(`[red ` + entryIndex + `] changed Name to: "` + event.target.value + `"`);
     }
 }
 );
@@ -70,39 +82,72 @@ playerContainer_green.addEventListener('change', function(event)
     // detect change to an ID field
     if(event.target.classList.contains('player-id-field'))
     {
-        if(!idChangeAttempt(event.target.id.slice(20), 'green', event.target.value))
+        let entryIndex = event.target.id.slice(22);
+
+        if(!idChangeAttempt(entryIndex, 'green', event.target.value))
         {
-            event.target.value = '';
+            event.target.value = '';                             // sets ID field to empty
+            players_green[entryIndex].nameField.readOnly = true; // sets name field to read only
+            players_green[entryIndex].nameField.value = '';      // sets name field to empty
         }
+    }
+
+    // detect change to a name field
+    if(event.target.classList.contains('player-name-field'))
+    {
+        let entryIndex = event.target.id.slice(24);
+        
+        console.log(`[green ` + entryIndex + `] changed Name to: "` + event.target.value + `"`);
     }
 }
 );
 
-//---------- ID PARSING ----------//
+//---------- ID CHANGE HANDLING ----------//
 
 function idChangeAttempt(index, team, newValue)
 {
     if(!/^[0-9]+$/.test(newValue)) // regex for ensuring only numeric chars
     {
-        window.alert("Invalid ID. Please enter numbers only.");
-        return false; // so the field can be set to nothing if bad input
+        if(newValue == '') // ID field has been set to empty
+        {
+            console.log(`[` + team + ` `  + index + `] emptied!`);
+        }
+        else // ID input invalid
+        {
+            window.alert("Invalid ID. Please enter numbers only.");
+        }
+
+        return false; // signals to set the ID and NAME fields to empty
     }
-    else 
+    else // when ID box changed to a valid ID
     {
-        // TO-DO:
-        // - query database
-        // - update names accordingly
-        // - remember to handle readonly rules for names
+        if(team == 'red')
+        {
+            players_red[index].nameField.readOnly = false;
+        }
+        else
+        {
+            players_green[index].nameField.readOnly = false;
+        }
+        /* 
+        if ID field is changed:
+            if newValue does not exist in DB:
+            {
+                prompt user to enter a name
+                ID and name are saved to DB
+                set name box readonly = false
+            }
+            elif newValue does exist in DB:
+            {
+                recall name into corresponding name box
+                set name box readonly = false
+            }        
+        */
     }
-
-    console.log(`[` + team + ` `  + index + `] attempted ID change to: "` + newValue + `"`);
+    
+    console.log(`[` + team + ` `  + index + `] changed ID to: "` + newValue + `"`);
+    return true; // necessary so the boxes don't get cleared
 }
-
-//--------- ROLLBACK IDS ---------//
-// - might not do this actually
-
-// var idRollbacks_red = {};
-// var idRollbacks_green = {};
 
 //---------- DEBUG ----------//
 
