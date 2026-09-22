@@ -1,0 +1,120 @@
+/* i know it looks ugly right now i will make it look better once its functional */
+
+:root{
+    /* VM WILL NOT HAVE THIS FONT !!! CHANGE LATER */
+    --global-font: ms reference sans serif; 
+}
+
+body{
+    font-family: var(--global-font);
+    margin: 0;
+
+    background-attachment: fixed;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#page-header{
+    background-color: lightsalmon;
+    
+    width: 100vw;
+    height: 75px;
+
+    display: flex;
+    justify-content: center;
+}
+
+#central-container{
+    background-color: lightgreen;
+
+    width: 800px;
+    height: 600px;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+
+    display: flex;
+}
+
+#team-container_red{
+    background-color: lightcoral;
+
+    height: auto;
+    width: 50%;
+}
+
+#team-container_green{
+    background-color: lightgreen;
+
+    height: auto;
+    width: 50%;
+}
+
+#team-header_red{
+    background-color:crimson;
+
+    height: 60px;
+    width: auto;
+    
+    display: flex;
+    justify-content: center;
+}
+
+#team-header_green{
+    background-color: springgreen;
+
+    height: 60px;
+    width: auto;
+
+    display: flex;
+    justify-content: center;
+}
+
+/* INPUT FIELD FORMATTING */
+
+.player-enable-button{
+    box-sizing: border-box;
+}
+
+.player-id-field{
+    width: 60px;
+}
+
+.player-name-field{
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.horizontal-flex{
+    background-color: khaki;
+
+    height: auto;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.vertical-flex{
+    background-color: lightseagreen;
+
+    height: auto;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#page-footer{
+    background-color: lightskyblue;
+    
+    width: 100vw;
+    height: 75px;
+
+    display: flex;
+    justify-content: center;
+}
