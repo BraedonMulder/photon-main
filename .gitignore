@@ -1,0 +1,5 @@
+.env
+.DS_Store
+ListPlayers.class
+node_modules/
+schema.sql
