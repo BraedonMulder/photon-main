@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
     <title>Photon</title>
 
     <style>
-        /* sets up the splash screen */
         body {
             margin: 0;
             background-color: black;
@@ -16,7 +17,6 @@
             overflow: hidden;
         }
 
-        /* keeps the logo sized to the screen */
         img {
             max-width: 90vw;
             max-height: 90vh;
@@ -27,15 +27,15 @@
 
 <body>
 
-    <!-- Photon logo -->
     <img src="/static/logo.jpg" alt="Photon Logo">
 
     <script>
-        // wait 3 seconds then switch to player entry
-        setTimeout(function() {
+        // move to the player entry screen after 3 seconds
+        setTimeout(function () {
             window.location.href = "/players";
         }, 3000);
     </script>
 
 </body>
+
 </html>

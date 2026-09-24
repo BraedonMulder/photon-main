@@ -26,15 +26,33 @@ body{
     justify-content: center;
 }
 
+#network-container{
+    width: 800px;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+}
+
+#network-address{
+    width: 140px;
+}
+
 #central-container{
     background-color: lightgreen;
 
     width: 800px;
-    height: 600px;
+    height: auto;
 
     margin-left: auto;
     margin-right: auto;
-    margin-top: 40px;
+    margin-top: 20px;
     margin-bottom: 40px;
 
     display: flex;
@@ -55,7 +73,7 @@ body{
 }
 
 #team-header_red{
-    background-color:crimson;
+    background-color: crimson;
 
     height: 60px;
     width: auto;
@@ -86,6 +104,11 @@ body{
 
 .player-name-field{
     width: 100%;
+    box-sizing: border-box;
+}
+
+.player-equipment-field{
+    width: 85px;
     box-sizing: border-box;
 }
 
