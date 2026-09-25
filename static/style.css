@@ -61,6 +61,14 @@ h2{
     gap: 10px;
 }
 
+#network-container label{
+    color:white;
+}
+
+#network-container input{
+    color:black;
+}
+
 #network-address{
     width: 140px;
 }
