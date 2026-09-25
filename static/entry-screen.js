@@ -19,17 +19,17 @@ var equipment_maxLength = 8;
 for(let i = 0; i < numPlayerFields; i++)
 {
     playerContainer_red.innerHTML += '<div class="horizontal-flex">' +
-                                        '<input id="player-enable-button_red_' + i + '" class="player-enable-button_red" type="checkbox" tabindex="-1" disabled>' +
-                                        '<input id="player-id-field_red_' + i + '" class="player-id-field_red" maxlength="' + id_maxLength + '" placeholder="ID">' +
-                                        '<input id="player-name-field_red_' + i + '" class="player-name-field_red" maxlength="' + name_maxLength + '" placeholder="Codename" type="text" tabindex="-1" readonly>' +
-                                        '<input id="player-equipment-field_red_' + i + '" class="player-equipment-field_red" maxlength="' + equipment_maxLength + '" placeholder="Equip">' +
+                                        '<input id="player-enable-button_red_' + i + '" class="player-enable-button" type="checkbox" tabindex="-1" disabled>' +
+                                        '<input id="player-id-field_red_' + i + '" class="player-id-field" maxlength="' + id_maxLength + '" placeholder="ID">' +
+                                        '<input id="player-name-field_red_' + i + '" class="player-name-field" maxlength="' + name_maxLength + '" placeholder="Codename" type="text" tabindex="-1" readonly>' +
+                                        '<input id="player-equipment-field_red_' + i + '" class="player-equipment-field" maxlength="' + equipment_maxLength + '" placeholder="Equip">' +
                                     '</div>';
 
     playerContainer_green.innerHTML += '<div class="horizontal-flex">' +
-                                        '<input id="player-enable-button_green_' + i + '" class="player-enable-button_green" type="checkbox" tabindex="-1" disabled>' +
-                                        '<input id="player-id-field_green_' + i + '" class="player-id-field_green" maxlength="' + id_maxLength + '" placeholder="ID">' +
-                                        '<input id="player-name-field_green_' + i + '" class="player-name-field_green" maxlength="' + name_maxLength + '" placeholder="Codename" type="text" tabindex="-1" readonly>' +
-                                        '<input id="player-equipment-field_green_' + i + '" class="player-equipment-field_green" maxlength="' + equipment_maxLength + '" placeholder="Equip">' +
+                                        '<input id="player-enable-button_green_' + i + '" class="player-enable-button" type="checkbox" tabindex="-1" disabled>' +
+                                        '<input id="player-id-field_green_' + i + '" class="player-id-field" maxlength="' + id_maxLength + '" placeholder="ID">' +
+                                        '<input id="player-name-field_green_' + i + '" class="player-name-field" maxlength="' + name_maxLength + '" placeholder="Codename" type="text" tabindex="-1" readonly>' +
+                                        '<input id="player-equipment-field_green_' + i + '" class="player-equipment-field" maxlength="' + equipment_maxLength + '" placeholder="Equip">' +
                                     '</div>';
 }
 
@@ -333,35 +333,35 @@ function clearPlayer(player)
 
 //---------- DEBUG ----------//
 
-var debugButton = document.getElementById('debug-button');
+// var debugButton = document.getElementById('debug-button');
 
-debugButton.addEventListener('click', function()
-{
-    let activePlayer;
+// debugButton.addEventListener('click', function()
+// {
+//     let activePlayer;
 
-    for(let i = 0; i < numPlayerFields; i++)
-    {
-        activePlayer = players_red[i];
+//     for(let i = 0; i < numPlayerFields; i++)
+//     {
+//         activePlayer = players_red[i];
 
-        console.log(
-            `[red ` + i + `] ` +
-            activePlayer.idField.value + ', ' +
-            activePlayer.nameField.value + ', ' +
-            activePlayer.equipmentField.value + ', ' +
-            activePlayer.enableButton.checked
-        );
-    }
+//         console.log(
+//             `[red ` + i + `] ` +
+//             activePlayer.idField.value + ', ' +
+//             activePlayer.nameField.value + ', ' +
+//             activePlayer.equipmentField.value + ', ' +
+//             activePlayer.enableButton.checked
+//         );
+//     }
 
-    for(let i = 0; i < numPlayerFields; i++)
-    {
-        activePlayer = players_green[i];
+//     for(let i = 0; i < numPlayerFields; i++)
+//     {
+//         activePlayer = players_green[i];
 
-        console.log(
-            `[green ` + i + `] ` +
-            activePlayer.idField.value + ', ' +
-            activePlayer.nameField.value + ', ' +
-            activePlayer.equipmentField.value + ', ' +
-            activePlayer.enableButton.checked
-        );
-    }
-});
+//         console.log(
+//             `[green ` + i + `] ` +
+//             activePlayer.idField.value + ', ' +
+//             activePlayer.nameField.value + ', ' +
+//             activePlayer.equipmentField.value + ', ' +
+//             activePlayer.enableButton.checked
+//         );
+//     }
+// });
