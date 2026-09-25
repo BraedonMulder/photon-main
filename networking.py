@@ -3,6 +3,8 @@ import time
 
 # SOURCE_IP    = "127.0.0.1"   # Local interface. Final implementation will use 192.168.1.2
 # BROADCAST_IP = "127.0.0.255" # For testing. Final implementation will be 192.168.1.255
+TRANSMIT_PORT = 7500
+RECEIVE_PORT  = 7501
 receive_sock  = None
 transmit_sock = None
 
@@ -12,10 +14,23 @@ _initialized = False         # Used to enforce explicit initialization of module
 def broadcast_code(code):
     if not _initialized:
         raise RuntimeError("networking.py is not initialized. call networking.init(source_address) before other functions.")
+    if   isinstance(code, str):
+        message = code
+    elif isinstance(code, int):
+        message = str(code)
+    else:
+        raise RuntimeError("Received a faulty code to transmit.")
+#       print("Received a faulty code to transmit.")                  # A quiet failure for use in actual application
+#       return
+    #Above insists that it receives an int or a string, message is a string either way
 
-    #take code and spit it out
-    # needs to try catch stuff for error handling
-    #   shoulndt' crach if there is a few errors with packets
+    try:
+        transmit_sock.sendto((message + '\0').encode("utf-8"), ("255.255.255.255", 7500))
+    except socket.gaierror as e: # Recoverable, deinit, then reinit
+        print(f"[NETWORK ERROR] Bad address or unresolvable host : {e}")
+        raise
+    except Exception as e:
+        raise 
 
 # Returns the tuple of ints (player who shot, player who got hit) as their equipment codes
 def receive_codes():
@@ -47,12 +62,12 @@ def init(source_address=None):
     
     transmit_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)    # Sets socket to IPv4 and UDP.
     transmit_sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1) # Allows the socket to broadcast.
-    transmit_sock.bind((source_address, 7500))                          # Binds the socket to send ports out of source_address
+    transmit_sock.bind((source_address, 0))                          # Binds the socket to send ports out of source_address
 #    transmit_sock.connect(("127.0.0.255", 7500))                        # Tells the OS all .send(message) to be broadcast on the described network with the described port.
 
     receive_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)     # Sets socket to IPv4 and UDP.
     receive_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # Allows the socket to quickly reuse the address in case of failure.
-    receive_sock.bind(("0.0.0.0", 7501))                                # Listen for any ip address:port 7501
+    receive_sock.bind(("0.0.0.0", RECEIVE_PORT))                        # Listen for any ip address:port RECEIVE_PORT
     receive_sock.settimeout(0.01)                                       # Sets the time in seconds that the socket will block before moving on when listening for traffic.
 #    _rx_sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 65536)    # Increase the packet buffer, probably not needed.
 
@@ -62,4 +77,4 @@ def init(source_address=None):
 
 init()
 #receive_codes()
-#broadcast_code(5)
+broadcast_code(202)
