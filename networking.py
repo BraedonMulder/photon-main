@@ -8,33 +8,38 @@ transmit_sock = None
 
 _initialized = False         # Used to enforce explicit initialization of module before any other functions
 
-# Broadcasts the single code of "id"
+# Broadcasts the single code of an int : id
 def broadcast_code(code):
     if not _initialized:
-        raise RuntimeError("networking.py is not initialized. call networking.init(network_address) before other functions.")
+        raise RuntimeError("networking.py is not initialized. call networking.init(source_address) before other functions.")
 
-# Returns the string of "id:id" from player
+    #take code and spit it out
+    # needs to try catch stuff for error handling
+    #   shoulndt' crach if there is a few errors with packets
+
+# Returns the tuple of ints (player who shot, player who got hit) as their equipment codes
 def receive_codes():
     if not _initialized:
-        raise RuntimeError("networking.py is not initialized. call networking.init(network_address) before other functions.")
+        raise RuntimeError("networking.py is not initialized. call networking.init(source_address) before other functions.")
+    # recieve packet, strip the id:id, format the id:id, return tuple(id, id)
 
 # Sets up the module before any work is done
-def init(network_address=None):
+def init(source_address=None):
     global _initialized
     if _initialized:
         raise RuntimeError("networking.py has already been initialized.")
     #checks if the function has been initialized before
 
-    if network_address is not None:
-        parts = network_address.split(".")
+    if source_address is not None:
+        parts = source_address.split(".")
         if len(parts) != 4:
             raise RuntimeError("networking.init received a poor ip address and failed to initialize networking.py.")
         for part in parts:
             if not part.isdigit():
                 raise RuntimeError("networking.init received a poor ip address and failed to initialize networking.py.")
     else:
-        network_address = "127.0.0.1"
-    print(f"Using network address : {network_address}")
+        source_address = "127.0.0.1"
+    print(f"Using network address : {source_address}")
     # Checks if the received ip is valid
 
     global receive_sock
@@ -42,11 +47,12 @@ def init(network_address=None):
     
     transmit_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)    # Sets socket to IPv4 and UDP.
     transmit_sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1) # Allows the socket to broadcast.
-    transmit_sock.connect(("127.0.0.255", 7500))                        # Tells the OS all .send(message) to be broadcast on the described network with the described port.
+    transmit_sock.bind((source_address, 7500))                          # Binds the socket to send ports out of source_address
+#    transmit_sock.connect(("127.0.0.255", 7500))                        # Tells the OS all .send(message) to be broadcast on the described network with the described port.
 
     receive_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)     # Sets socket to IPv4 and UDP.
     receive_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # Allows the socket to quickly reuse the address in case of failure.
-    receive_sock.bind((network_address, 7501))                          # Listen on network_address:7501
+    receive_sock.bind(("0.0.0.0", 7501))                                # Listen for any ip address:port 7501
     receive_sock.settimeout(0.01)                                       # Sets the time in seconds that the socket will block before moving on when listening for traffic.
 #    _rx_sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 65536)    # Increase the packet buffer, probably not needed.
 
@@ -54,6 +60,6 @@ def init(network_address=None):
     _initialized= True
     print("Finished initializtion of networking.py")
 
-#init()
+init()
 #receive_codes()
 #broadcast_code(5)
