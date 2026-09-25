@@ -5,6 +5,7 @@ import time
 # BROADCAST_IP = "127.0.0.255" # For testing. Final implementation will be 192.168.1.255
 TRANSMIT_PORT = 7500
 RECEIVE_PORT  = 7501
+BUFFER_SIZE   = 1024
 receive_sock  = None
 transmit_sock = None
 
@@ -37,6 +38,20 @@ def receive_codes():
     if not _initialized:
         raise RuntimeError("networking.py is not initialized. call networking.init(source_address) before other functions.")
     # recieve packet, strip the id:id, format the id:id, return tuple(id, id)
+    try:
+        message, _ = receive_sock.recvfrom(1024)
+        data = message.decode("utf-8").rstrip('\0').strip()     # Removes \0, whitespaces, newlines, tabs, etc...
+        if ":" in data:
+            shooter, target = data.split(":",1)
+            return (int(shooter), int(target))
+    except TimeoutError:
+        return None                                             # Required for non-blocking packet listening.
+    except (UnicodeDecodeError, ValueError) as e:
+        print(f"[DATA ERROR] Received malformed packet : {e}")
+        print("proceeding")
+        return None
+    except Exception as e:
+        raise
 
 # Sets up the module before any work is done
 def init(source_address=None):
@@ -63,7 +78,6 @@ def init(source_address=None):
     transmit_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)    # Sets socket to IPv4 and UDP.
     transmit_sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1) # Allows the socket to broadcast.
     transmit_sock.bind((source_address, 0))                          # Binds the socket to send ports out of source_address
-#    transmit_sock.connect(("127.0.0.255", 7500))                        # Tells the OS all .send(message) to be broadcast on the described network with the described port.
 
     receive_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)     # Sets socket to IPv4 and UDP.
     receive_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # Allows the socket to quickly reuse the address in case of failure.
@@ -75,6 +89,12 @@ def init(source_address=None):
     _initialized= True
     print("Finished initializtion of networking.py")
 
-init()
-#receive_codes()
-broadcast_code(202)
+init("192.168.68.86")
+##receive_codes()
+#broadcast_code(221)
+#while(True):
+#    data = receive_codes()
+#    if data is not None:
+#        print(data)
+#        broadcast_code(data[0])
+# Lines for testing against the traffic generator
