@@ -22,5 +22,20 @@ If the player ID is new, the desk worker enters a new ID number and a codename f
 
 The desk worker then enters the equipment ID the player is using for that game. New player information is saved to the PostgreSQL database after the player's ID and codename are entered. The equipment ID is then sent through UDP.
 
+## Installation
 
+This project is designed to run on the provided Photon Debian virtual machine.
 
+We have two installation scripts because different VM setups worked better with different install methods during testing.
+
+### Standard x64 VM
+
+Run:
+
+bash install.sh
+
+### ARM64 VM
+
+Run:
+
+bash install-arm64.sh
