@@ -39,3 +39,13 @@ bash install.sh
 Run:
 
 bash install-arm64.sh
+
+### Running the Application
+
+If the application has already been installed, start it with:
+
+    python3 app.py
+
+If your environment uses `python` instead of `python3`, run:
+
+    python app.py
