@@ -3,3 +3,6 @@
 ListPlayers.class
 node_modules/
 schema.sql
+.venv/
+__pycache__/
+udp_files/__pycache__/
