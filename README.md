@@ -49,3 +49,5 @@ If the application has already been installed, start it with:
 If your environment uses `python` instead of `python3`, run:
 
     python app.py
+
+Once your server is running : Connect to 127.0.0.1:5000 in a web browser
