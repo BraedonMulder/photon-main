@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Game Screen</title>
+        <link href = "static/game_screen.css" rel = "stylesheet">
+    </head>
+
+    <body>
+        
+        <!-- <div id="page-header">
+            <h1>GAME SCREEN</h1>
+        </div> -->
+
+        <div id="central-container">
+
+            <div id="teams-container">
+
+                <div class="horizontal-flex">
+                    
+                    <div id="team-container_red">
+
+                        <div id="team-header_red">
+                            <h2>RED TEAM</h2>
+                        </div>
+
+                        <div class="horizontal-flex">
+
+                            <div class="team-chunk" id="team-chunk_red">
+
+                                <!-- PLAYER SCORE CONTAINERS HERE -->
+
+                            </div>
+
+                            <div class="team-chunk" id="team-chunk_red_overflow">
+
+                                <!-- PLAYER SCORE CONTAINERS HERE -->
+                                
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="team-container_green">
+
+                        <div id="team-header_green">
+                            <h2>GREEN TEAM</h2>
+                        </div>
+
+                        <div class="horizontal-flex">
+
+                            <div class="team-chunk" id="team-chunk_green">
+                                
+                                <!-- PLAYER SCORE CONTAINERS HERE -->
+
+                            </div>
+
+                            <div class="team-chunk" id="team-chunk_green_overflow">
+
+                                <!-- PLAYER SCORE CONTAINERS HERE -->
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div id="feed-container">
+            
+                <!-- EVENTS GO HERE -->
+
+            </div>
+
+            <div id="timer-container">
+                <label id="timer-text">Time Remaining: 2:00</label>
+            </div>
+    
+        </div>
+
+        <div id="page-footer">
+            <button class="debug-button" id="fake-event_button">fake event</button>
+        </div>
+
+        <script src = "static/game_screen.js"></script>
+        
+    </body>
+
+</html>
