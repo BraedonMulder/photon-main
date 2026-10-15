@@ -1,4 +1,4 @@
-console.log(`test message`);
+console.log(`entry-screen.js loaded`);
 
 //---------- DOM ELEMENTS ----------//
 
