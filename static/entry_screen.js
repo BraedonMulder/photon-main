@@ -115,6 +115,7 @@ playerContainer_green.addEventListener('change', async function(event)
 });
 
 //---------- Clearing names from player entry ----------//
+//---------- Control + fn + Delete ----------//
 
 document.addEventListener('keydown', function(event)
 {
