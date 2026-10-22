@@ -19,6 +19,11 @@ def splash():
 def players():
     return render_template("player_entry.html")
 
+# opens the player entry screen
+@app.route("/gamescreen")
+def gamescreen():
+    return render_template("game_screen.html")
+
 
 # looks up a player using their player ID
 @app.route("/api/player/<int:player_id>")
@@ -93,4 +98,4 @@ def send_equipment():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=False)
+    app.run(host="127.0.0.1", port=5000, debug=True) # REMEMBER TO SET THIS TO FALSE WHEN WE SUBMIT

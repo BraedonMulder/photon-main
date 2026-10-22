@@ -3,7 +3,7 @@
 set -e -u
 cd "$(dirname "$0")"
 
-sudo sh -c 'echo "deb http://archive.debian.org/debian/ bullseye main contrib non-free" > /etc/apt/sources.list'                    # Replaces where apt looks for installation sources.
+sudo sh -c 'echo "deb http://archive.debian.org/debian/ bullseye main contrib non-free" > /etc/apt/sources.list'
 
 # Install pip if missing
 if ! command -v pip3 >/dev/null 2>&1; then

@@ -18,9 +18,34 @@ The Player Entry screen allows the Photon desk worker to add players to either t
 
 The desk worker first enters the player's ID. If that ID is already in the database, the player's codename will load automatically.
 
-If the player ID is new, the desk worker adds the next ID number available and enters a codename for the player.
+If the player ID is new, the desk worker enters a new ID number and a codename for the player.
 
-The desk worker must then enter an equipment ID that the plyer is using for that game. Once the equipment ID is entered, the new player information is saved to the PostgreSQL database and the equipment code is sent through UDP.
+The desk worker then enters the equipment ID the player is using for that game. New player information is saved to the PostgreSQL database after the player's ID and codename are entered. The equipment ID is then sent through UDP.
 
+## Installation
 
+This project is designed to run on the provided Photon Debian virtual machine.
 
+We have two installation scripts because different VM setups worked better with different install methods during testing.
+
+### Standard x64 VM
+
+Run:
+
+bash install.sh
+
+### ARM64 VM
+
+Run:
+
+bash install-arm64.sh
+
+### Running the Application
+
+If the application has already been installed, start it with:
+
+    python3 app.py
+
+If your environment uses `python` instead of `python3`, run:
+
+    python app.py

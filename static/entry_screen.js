@@ -1,4 +1,4 @@
-console.log(`test message`);
+console.log(`entry-screen.js loaded`);
 
 //---------- DOM ELEMENTS ----------//
 
@@ -111,6 +111,25 @@ playerContainer_green.addEventListener('change', async function(event)
         let entryIndex = event.target.id.slice(29);
 
         await equipmentChangeAttempt(entryIndex, 'green');
+    }
+});
+
+//---------- Clearing names from player entry ----------//
+//---------- Control + fn + Delete ----------//
+
+document.addEventListener('keydown', function(event)
+{
+    if(event.key == 'Delete' && event.ctrlKey)
+    {
+        event.preventDefault();
+
+        for(let i = 0; i < numPlayerFields; i++)
+        {
+            clearPlayer(players_red[i]);
+            clearPlayer(players_green[i]);
+        }
+
+        console.log('All player entries cleared.');
     }
 });
 
