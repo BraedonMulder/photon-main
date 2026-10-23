@@ -114,7 +114,8 @@ playerContainer_green.addEventListener('change', async function(event)
     }
 });
 
-//---------- Start game screen ----------//
+//---------- Start Game Screen Shortcut----------//
+//---------- Control + Enter ----------//
 
 document.addEventListener('keydown', function(event)
 {
@@ -127,7 +128,7 @@ document.addEventListener('keydown', function(event)
 });
 
 
-//---------- Clearing names from player entry ----------//
+//---------- Clearing Names From Player Entry Shortcut ----------//
 //---------- Control + fn + Delete ----------//
 
 document.addEventListener('keydown', function(event)
