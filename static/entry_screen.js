@@ -169,25 +169,6 @@ document.addEventListener('keydown', function(event)
     }
 });
 
-//---------- Clearing Names From Player Entry Shortcut ----------//
-//---------- Control + fn + Delete ----------//
-
-document.addEventListener('keydown', function(event)
-{
-    if(event.key == 'Delete' && event.ctrlKey)
-    {
-        event.preventDefault();
-
-        for(let i = 0; i < numPlayerFields; i++)
-        {
-            clearPlayer(players_red[i]);
-            clearPlayer(players_green[i]);
-        }
-
-        console.log('All player entries cleared.');
-    }
-});
-
 //---------- ID CHANGE HANDLING ----------//
 
 async function idChangeAttempt(index, team, newValue)
