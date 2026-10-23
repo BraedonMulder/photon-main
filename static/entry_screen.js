@@ -114,6 +114,19 @@ playerContainer_green.addEventListener('change', async function(event)
     }
 });
 
+//---------- Start game screen ----------//
+
+document.addEventListener('keydown', function(event)
+{
+    if(event.key == 'Enter' && event.ctrlKey)
+    {
+        event.preventDefault();
+
+        window.location.href = '/gamescreen';
+    }
+});
+
+
 //---------- Clearing names from player entry ----------//
 //---------- Control + fn + Delete ----------//
 
