@@ -35,12 +35,12 @@ for(let i = 0; i < numPlayerFields; i++)
 
 //---------- CREATE PLAYER OBJECTS ----------//
 
-var players_red = [];
-var players_green = [];
+var playerFields_red = [];
+var playerFields_green = [];
 
 for(let i = 0; i < numPlayerFields; i++)
 {
-    players_red.push({
+    playerFields_red.push({
         enableButton: document.getElementById('player-enable-button_red_' + i),
         idField: document.getElementById('player-id-field_red_' + i),
         nameField: document.getElementById('player-name-field_red_' + i),
@@ -48,7 +48,7 @@ for(let i = 0; i < numPlayerFields; i++)
         existsInDatabase: false
     });
 
-    players_green.push({
+    playerFields_green.push({
         enableButton: document.getElementById('player-enable-button_green_' + i),
         idField: document.getElementById('player-id-field_green_' + i),
         nameField: document.getElementById('player-name-field_green_' + i),
@@ -67,7 +67,7 @@ playerContainer_red.addEventListener('change', async function(event)
 
         if(!await idChangeAttempt(entryIndex, 'red', event.target.value))
         {
-            clearPlayer(players_red[entryIndex]);
+            clearPlayer(playerFields_red[entryIndex]);
         }
     }
 
@@ -95,7 +95,7 @@ playerContainer_green.addEventListener('change', async function(event)
 
         if(!await idChangeAttempt(entryIndex, 'green', event.target.value))
         {
-            clearPlayer(players_green[entryIndex]);
+            clearPlayer(playerFields_green[entryIndex]);
         }
     }
 
@@ -114,6 +114,25 @@ playerContainer_green.addEventListener('change', async function(event)
     }
 });
 
+//---------- Clearing names from player entry ----------//
+//---------- Control + fn + Delete ----------//
+
+document.addEventListener('keydown', function(event)
+{
+    if(event.key == 'Delete' && event.ctrlKey)
+    {
+        event.preventDefault();
+
+        for(let i = 0; i < numPlayerFields; i++)
+        {
+            clearPlayer(playerFields_red[i]);
+            clearPlayer(playerFields_green[i]);
+        }
+
+        console.log('All player entries cleared.');
+    }
+});
+
 //---------- Start Game Screen Shortcut----------//
 //---------- Control + Enter ----------//
 
@@ -123,10 +142,32 @@ document.addEventListener('keydown', function(event)
     {
         event.preventDefault();
 
+        // package player info for easy transfer to game_screen
+
+        let players_red = [];
+        let players_green = [];
+
+        for(let i = 0; i < playerFields_red.length; i++)
+        {
+            if(playerFields_red[i].enableButton.checked)
+            {
+                players_red.push({id: playerFields_red[i].idField.value, name: playerFields_red[i].nameField.value, equipid: playerFields_red[i].equipmentField.value});
+            }
+        }
+        for(let i = 0; i < playerFields_green.length; i++)
+        {
+            if(playerFields_red[i].enableButton.checked)
+            {
+                players_green.push({id: playerFields_green[i].idField.value, name: playerFields_green[i].nameField.value, equipid: playerFields_green[i].equipmentField.value});
+            }
+        }
+
+        sessionStorage.setItem("players_red", JSON.stringify(players_red));
+        sessionStorage.setItem("players_green", JSON.stringify(players_green));
+
         window.location.href = '/gamescreen';
     }
 });
-
 
 //---------- Clearing Names From Player Entry Shortcut ----------//
 //---------- Control + fn + Delete ----------//
@@ -343,11 +384,11 @@ function getPlayerObject(index, team)
 {
     if(team == 'red')
     {
-        return players_red[index];
+        return playerFields_red[index];
     }
     else
     {
-        return players_green[index];
+        return playerFields_green[index];
     }
 }
 
@@ -374,7 +415,7 @@ function clearPlayer(player)
 
 //     for(let i = 0; i < numPlayerFields; i++)
 //     {
-//         activePlayer = players_red[i];
+//         activePlayer = playerFields_red[i];
 
 //         console.log(
 //             `[red ` + i + `] ` +
@@ -387,7 +428,7 @@ function clearPlayer(player)
 
 //     for(let i = 0; i < numPlayerFields; i++)
 //     {
-//         activePlayer = players_green[i];
+//         activePlayer = playerFields_green[i];
 
 //         console.log(
 //             `[green ` + i + `] ` +
