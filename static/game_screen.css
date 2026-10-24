@@ -7,6 +7,10 @@
     --global-font: anta;
 }
 
+*{
+    box-sizing: border-box;
+}
+
 body{
     font-family: var(--global-font);
     margin: 0; /* get rid of evil default margin */
@@ -34,7 +38,18 @@ h1{
 
 h2{
     color: white;
-    font-size: 15px;
+    font-size: 25px;
+
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+p{
+    color: white;
+}
+
+label{
+    color: white;
 }
 
 #page-header{
@@ -48,46 +63,73 @@ h2{
 }
 
 #central-container{
-    background-color: rgb(93, 27, 27);
+    /* background-color: rgb(225, 225, 225); */
 
-    width: 900px;
+    width: 1000px;
     height: auto;
+
+    padding: 20px;
 
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* LAZY */
 }
 
 #teams-container{
-    background-color: rgb(173, 173, 173);
+    /* background-color: rgb(173, 173, 173); */
 
     width: 100%;
     height: auto;
+
+    padding-bottom: 20px;
 }
 
 #feed-container{
-    background-color: rgb(128, 128, 128);
+    /* background-color: rgb(128, 128, 128); */
 
     width: 100%;
-    height: 300px;
+    height: 260px;
 
     display: flex;
     flex-direction: column;
 
     justify-content: end;
 
-    padding: 20px;
-    overflow: hidden; /* LAZY */
+    padding: 10px;
+
+    border-style: groove;
+    border-width: 6px;
+    border-bottom: 0px;
+
+    /* orange */
+    border-color: rgb(255, 204, 0);
+    box-shadow: 0px 0px 20px rgb(255, 204, 0);
+
+    /* gray */
+    /* border-color: rgb(200, 200, 200);
+    box-shadow: 0px 0px 20px rgb(200, 200, 200); */
 }
 
 .feed-message{
-    color: white;
 
+    color: white;
     font-size: 24px;
+    text-shadow: 0px 0px 10px rgb(255, 204, 0);
 }
 
+/* .feed-message_red{
+    color: white;
+    font-size: 24px;
+    text-shadow: 0px 0px 10px rgb(255, 0, 34);
+}
+
+.feed-message_green{
+    color: white;
+    font-size: 24px;
+    text-shadow: 0px 0px 10px rgb(34, 255, 0);
+} */
+
 #timer-container{
-    background-color: rgb(73, 73, 73);
+    /* background-color: rgb(73, 73, 73); */
 
     width: 100%;
     height: 80px;
@@ -95,6 +137,19 @@ h2{
     display: flex;
     justify-content: right;
     align-items: center;
+
+    border-style: groove;
+    border-width: 6px;
+
+    /* purple */
+    /* border-color: rgb(153, 0, 192);
+    box-shadow: 0px 0px 20px rgb(153, 0, 192);
+    text-shadow: 0px 0px 10px rgb(204, 0, 255); */
+
+    /* blue */
+    border-color: rgb(0, 138, 185);
+    box-shadow: 0px 0px 20px rgb(0, 138, 185);
+    text-shadow: 0px 0px 10px rgb(0, 155, 206);
 }
 
 #timer-text{
@@ -106,41 +161,61 @@ h2{
 }
 
 #team-container_red{
-    background-color: rgb(101, 42, 42);
+    /* background-color: rgb(101, 42, 42); */
 
     width: 50%;
     height: 100%;
+    margin-right: 10px;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    border-style: groove;
+    border-color: rgb(181, 0, 24);
+    border-width: 6px;
+    box-shadow: 0px 0px 20px rgb(181, 0, 24);
 }
 
 #team-header_red{
-    background-color: rgb(133, 56, 56);
+    /* background-color: rgb(133, 56, 56); */
 
+    height: 60px;
     width: 100%;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 6px groove rgb(181, 0, 24);
+    box-shadow: 0px 0px 20px rgb(181, 0, 24);
+    text-shadow: 0px 0px 10px rgb(255, 0, 34);
 }
 
 #team-container_green{
-    background-color: rgb(42, 101, 53);
+    /* background-color: rgb(42, 101, 53); */
 
     width: 50%;
     height: 100%;
+    margin-left: 10px;
+
+    border-style: groove;
+    border-color: rgb(22, 168, 0);
+    border-width: 6px;
+    box-shadow: 0px 0px 20px rgb(22, 168, 0);
 }
 
 #team-header_green{
-    background-color: rgb(67, 137, 72);
+    /* background-color: rgb(67, 137, 72); */
 
+    height: 60px;
     width: 100%;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 6px groove rgb(22, 168, 0);
+    box-shadow: 0px 0px 20px rgb(22, 168, 0);
+    text-shadow: 0px 0px 5px rgb(34, 255, 0);
 }
 
 .team-chunk{
@@ -148,7 +223,7 @@ h2{
     width: 50%;
 }
 
-#team-chunk_red{
+/* #team-chunk_red{
     background-color: rgb(99, 52, 52);
 }
 
@@ -162,16 +237,21 @@ h2{
 
 #team-chunk_green_overflow{
     background-color: rgb(75, 115, 83); 
-}
+} */
 
 .player-score-container
 {
-    background-color: rgba(0, 0, 0, 0.21);       
+    /* background-color: rgba(0, 0, 0, 0.21);        */
 
     display: flex;
     flex-direction: row;
 
     justify-content: space-between;
+
+    border-width: 6px;
+    border-style: groove;
+
+    border-color: rgb(80, 80, 80);
 }
 
 .player-score-container p
