@@ -7,6 +7,10 @@
     --global-font: anta;
 }
 
+*{
+    box-sizing: border-box;
+}
+
 body{
     font-family: var(--global-font);
     margin: 0;
@@ -29,12 +33,21 @@ h1{
     color: white;
     font-size: 40px;
 
+    margin-bottom: 0px;
+
     text-shadow: 0px 0px 20px rgb(255, 204, 0);
 }
 
 h2{
     color: white;
     font-size: 35px;
+}
+
+h3{
+    color: white;
+    font-size: 15px;
+
+    text-shadow: 0px 0px 20px rgb(255, 204, 0);
 }
 
 #page-header{
@@ -160,8 +173,8 @@ input{
 .player-enable-button{
     box-sizing: border-box;
 
-    border-width: 4px;
     padding: 6px;
+    margin: 0px 8px 0px 8px;
 }
 
 .player-id-field{
@@ -169,7 +182,7 @@ input{
 
     background-color: transparent;
 
-    border-width: 4px;
+    border-width: 0px 0px 0px 4px;
     padding: 6px;
 
     border-color: rgb(80, 80, 80);
@@ -181,7 +194,7 @@ input{
 
     background-color: transparent;
 
-    border-width: 4px;
+    border-width: 0px 0px 0px 4px;
     padding: 6px;
     
     border-color: rgb(80, 80, 80); 
@@ -193,7 +206,7 @@ input{
 
     background-color: transparent;
 
-    border-width: 4px;
+    border-width: 0px 0px 0px 4px;;
     padding: 6px;
     
     border-color: rgb(80, 80, 80); 
@@ -207,6 +220,12 @@ input{
 
     display: flex;
     flex-direction: row;
+
+    border-style: groove;
+    border-width: 4px;
+    /* padding: 6px; */
+    
+    border-color: rgb(80, 80, 80); 
 }
 
 .vertical-flex{
@@ -222,9 +241,22 @@ input{
 #page-footer{
     /* background-color: lightskyblue; */
     
-    width: 100vw;
-    height: 75px;
+    width: 800px;
+    height: 60px;   
 
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    align-content: center;
+}
+
+.key-helper{
+    /* background-color: tan; */
+
+    height: 100%;
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    border: 6px groove rgb(255, 204, 0);
+    box-shadow: 0px 0px 20px rgb(255, 204, 0);
 }

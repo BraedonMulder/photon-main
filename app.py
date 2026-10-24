@@ -98,4 +98,4 @@ def send_equipment():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=True) # REMEMBER TO SET THIS TO FALSE WHEN WE SUBMIT
+    app.run(host="127.0.0.1", port=5000, debug=False) # REMEMBER TO SET THIS TO FALSE WHEN WE SUBMIT

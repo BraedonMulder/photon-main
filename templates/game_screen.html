@@ -25,6 +25,7 @@
 
                         <div id="team-header_red">
                             <h2>RED TEAM</h2>
+                            <h2 id="team-score-label_red">0</h2>
                         </div>
 
                         <div class="horizontal-flex">
@@ -49,6 +50,7 @@
 
                         <div id="team-header_green">
                             <h2>GREEN TEAM</h2>
+                            <h2 id="team-score-label_green">0</h2>
                         </div>
 
                         <div class="horizontal-flex">
@@ -86,7 +88,10 @@
         </div>
 
         <div id="page-footer">
+            <label style="margin-right: 10px">debug utilities:</label>
             <button class="debug-button" id="fake-event_button">fake event</button>
+            <button class="debug-button" id="clear-eventfeed_button">clear event feed</button>
+            <button class="debug-button" id="clear-scores_button">clear scores</button>
         </div>
 
         <script src = "static/game_screen.js"></script>
