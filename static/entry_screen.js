@@ -165,7 +165,7 @@ document.addEventListener('keydown', function(event)
         sessionStorage.setItem("players_red", JSON.stringify(players_red));
         sessionStorage.setItem("players_green", JSON.stringify(players_green));
 
-        window.location.href = '/gamescreen';
+        window.location.href = '/countdown';
     }
 });
 

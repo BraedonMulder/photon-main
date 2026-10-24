@@ -19,7 +19,12 @@ def splash():
 def players():
     return render_template("player_entry.html")
 
-# opens the player entry screen
+# opens the countdown screen
+@app.route("/countdown")
+def countdown():
+    return render_template("countdown.html")
+
+# opens the game screen
 @app.route("/gamescreen")
 def gamescreen():
     return render_template("game_screen.html")
