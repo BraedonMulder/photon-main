@@ -16,7 +16,7 @@ Photon is a laser tag web application made for our Software Engineering project.
 
 This project is designed to run on the provided Photon Debian virtual machine.
 
-### Standard x64 VM
+### Intel VM
 
 Run:
 
@@ -34,7 +34,7 @@ If your environment uses `python` instead of `python3`, run:
 
     python app.py
 
-Then make sure to open the https link given into your browser.
+Then open the HTTP address shown in the terminal in your browser.
 
 ## Splash Screen
 
@@ -55,7 +55,7 @@ The desk worker then enters the equipment ID the player is using for that game. 
 | Keys | Action |
 | --- | --- |
 | `Ctrl` + `Enter` | Start the game: shows the countdown, then the Play Action Display |
-| `Ctrl` + `Delete` | Clear all player entries on the Player Entry screen |
+| `Ctrl` + `Fn` + `Delete` | Clear all player entries on the Player Entry screen |
 
 ## Countdown
 
@@ -63,7 +63,7 @@ A 30-second countdown is shown. When it reaches 0 the program moves to the Play 
 
 ## Play Action Display
 
-Shows the red and green team windows with each player's codename and score, plus the team totals and an event feed. Game events from the equipment are not connected yet;
+Shows the red and green team windows with each player's codename and score, plus the team totals and an event feed. Game events from the equipment are not connected yet.
 
 
 
