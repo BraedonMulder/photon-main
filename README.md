@@ -67,3 +67,4 @@ Shows the red and green team windows with each player's codename and score, plus
 
 
 
+Once your server is running : Connect to 127.0.0.1:5000 in a web browser
