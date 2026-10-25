@@ -19,6 +19,16 @@ def splash():
 def players():
     return render_template("player_entry.html")
 
+# opens the countdown screen
+@app.route("/countdown")
+def countdown():
+    return render_template("countdown.html")
+
+# opens the game screen
+@app.route("/gamescreen")
+def gamescreen():
+    return render_template("game_screen.html")
+
 
 # looks up a player using their player ID
 @app.route("/api/player/<int:player_id>")
@@ -93,4 +103,4 @@ def send_equipment():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=False)
+    app.run(host="127.0.0.1", port=5000, debug=False) # REMEMBER TO SET THIS TO FALSE WHEN WE SUBMIT
