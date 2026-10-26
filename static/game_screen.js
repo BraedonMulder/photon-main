@@ -149,3 +149,8 @@ clearScores_button.addEventListener('click', function()
 
     initializeScores();
 });
+
+quitGame_button.addEventListener('click', function()
+{
+    window.location.href = "/players";
+});
