@@ -10,12 +10,8 @@ var teamChunk_red = document.getElementById('team-chunk_red'),
 
 //---------- NAME/SCORE ARRAYS ----------//
 
-const players_red = JSON.parse(sessionStorage.getItem("players_red"));
-const players_green = JSON.parse(sessionStorage.getItem("players_green"));
-
-// DEBUG ENTRIES
-// const players_red = [{name: 'apple'},{name: 'orange'},{name: 'lemon'},{name: 'kiwi'},{name: 'lime'},{name: 'cherry'},{name: 'banana'},{name: 'coconut'},{name: 'blueberry'},{name: 'raspberry'},{name: 'strawberry'},{name: 'watermelon'}];
-// const players_green = [{name: 'tomato'},{name: 'carrot'},{name: 'cucumber'},{name: 'avocado'},{name: 'corn'},{name: 'squash'},{name: 'onion'},{name: 'lettuce'},{name: 'eggplant'},{name: 'pepper'},{name: 'asparagus'},{name: 'broccoli'}];
+var players_red = JSON.parse(sessionStorage.getItem("players_red"));
+var players_green = JSON.parse(sessionStorage.getItem("players_green"));
 
 var scores_red = [];
 var scores_green = [];
@@ -83,9 +79,32 @@ initializeScores();
 
 // for testing formatting, score calls and such
 
-var fakeEvent_button = document.getElementById('fake-event_button');
-var eventCount = 0;
+var fakePlayers_button = document.getElementById('fake-players_button');
+fakePlayers_button.addEventListener('click', function()
+{
+    if(confirm('This will replace any entered players with sample players, are you sure?') == false)
+    {
+        return;
+    }
 
+    // replace players
+    players_red = [{id: 0, name: 'apple', equipid: 100},{id: 1, name: 'orange', equipid: 101},{id: 2, name: 'lemon', equipid: 102},{id: 3, name: 'kiwi', equipid: 103}];
+    players_green = [{id: 4, name: 'tomato', equipid: 104},{id: 5, name: 'cucumber', equipid: 105},{id: 6, name: 'carrot', equipid: 106},{id: 7, name: 'pepper', equipid: 107}];
+
+    // clear event feed
+    feedContainer.innerHTML = "";
+    eventCount = 0;
+
+    // clear scores
+    teamChunk_red.innerHTML = "";
+    teamChunk_red_overflow.innerHTML = "";
+    teamChunk_green.innerHTML = "";
+    teamChunk_green_overflow.innerHTML = "";
+    initializeScores();
+});
+
+var eventCount = 0;
+var fakeEvent_button = document.getElementById('fake-event_button');
 fakeEvent_button.addEventListener('click', function()
 {
     eventCount++;
@@ -131,7 +150,6 @@ fakeEvent_button.addEventListener('click', function()
 });
 
 var clearEventFeed_button = document.getElementById('clear-eventfeed_button');
-
 clearEventFeed_button.addEventListener('click', function()
 {
     feedContainer.innerHTML = "";
@@ -139,7 +157,6 @@ clearEventFeed_button.addEventListener('click', function()
 });
 
 var clearScores_button = document.getElementById('clear-scores_button');
-
 clearScores_button.addEventListener('click', function()
 {
     teamChunk_red.innerHTML = "";
@@ -148,4 +165,10 @@ clearScores_button.addEventListener('click', function()
     teamChunk_green_overflow.innerHTML = "";
 
     initializeScores();
+});
+
+var quitGame_button = document.getElementById('quit-game_button')
+quitGame_button.addEventListener('click', function()
+{
+    window.location.href = "/players";
 });
