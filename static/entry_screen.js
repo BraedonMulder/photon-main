@@ -165,26 +165,7 @@ document.addEventListener('keydown', function(event)
         sessionStorage.setItem("players_red", JSON.stringify(players_red));
         sessionStorage.setItem("players_green", JSON.stringify(players_green));
 
-        window.location.href = '/gamescreen';
-    }
-});
-
-//---------- Clearing Names From Player Entry Shortcut ----------//
-//---------- Control + fn + Delete ----------//
-
-document.addEventListener('keydown', function(event)
-{
-    if(event.key == 'Delete' && event.ctrlKey)
-    {
-        event.preventDefault();
-
-        for(let i = 0; i < numPlayerFields; i++)
-        {
-            clearPlayer(players_red[i]);
-            clearPlayer(players_green[i]);
-        }
-
-        console.log('All player entries cleared.');
+        window.location.href = '/countdown';
     }
 });
 
