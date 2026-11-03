@@ -13,8 +13,15 @@ var teamChunk_red = document.getElementById('team-chunk_red'),
 var players_red = JSON.parse(sessionStorage.getItem("players_red"));
 var players_green = JSON.parse(sessionStorage.getItem("players_green"));
 
-var scores_red = [];
-var scores_green = [];
+if(players_red == null)
+{
+    var players_red = [];
+}
+if(players_green == null)
+{
+    var players_green = [];
+}
+
 var teamScore_red = 0;
 var teamScore_green = 0;
 
@@ -29,7 +36,7 @@ function initializeScores()
 {
     for(let i = 0; i < players_red.length; i++)
     {
-        scores_red[i] = 0;
+        players_red[i].score = 0;
 
         if(i <= 7) // split for better looking formatting. has no reprecussions past this
         {
@@ -49,7 +56,7 @@ function initializeScores()
 
     for(let i = 0; i < players_green.length; i++)
     {
-        scores_green[i] = 0;
+        players_green[i].score = 0;
 
         if(i <= 7) // split for better looking formatting. has no reprecussions past this
         {
@@ -88,8 +95,8 @@ fakePlayers_button.addEventListener('click', function()
     }
 
     // replace players
-    players_red = [{id: 0, name: 'apple', equipid: 100},{id: 1, name: 'orange', equipid: 101},{id: 2, name: 'lemon', equipid: 102},{id: 3, name: 'kiwi', equipid: 103}];
-    players_green = [{id: 4, name: 'tomato', equipid: 104},{id: 5, name: 'cucumber', equipid: 105},{id: 6, name: 'carrot', equipid: 106},{id: 7, name: 'pepper', equipid: 107}];
+    players_red = [{id: 0, name: 'apple', equipid: 100, score: 0},{id: 1, name: 'orange', equipid: 101, score: 0},{id: 2, name: 'lemon', equipid: 102, score: 0},{id: 3, name: 'kiwi', equipid: 103, score: 0}];
+    players_green = [{id: 4, name: 'tomato', equipid: 104, score: 0},{id: 5, name: 'cucumber', equipid: 105, score: 0},{id: 6, name: 'carrot', equipid: 106, score: 0},{id: 7, name: 'pepper', equipid: 107, score: 0}];
 
     // clear event feed
     feedContainer.innerHTML = "";
@@ -125,26 +132,30 @@ fakeEvent_button.addEventListener('click', function()
     {
         feedContainer.innerHTML += `<label class="feed-message" id="event_` + eventCount + `">` + players_red[randRed].name + ` hit ` + players_green[randGreen].name + '</label>';
 
-        scores_red[randRed] = scores_red[randRed] + hitValue;
+        players_red[randRed].score = players_red[randRed].score + hitValue;
         teamScore_red += hitValue;
         teamScoreLabel_red.textContent = teamScore_red;
 
         scorePointer = document.getElementById(`player-score-container_red_` + randRed);
         scorePointer.innerHTML =    '<p>' + players_red[randRed].name + '</p>' +
-                                        '<p>' + scores_red[randRed] + '</p>' +
+                                    '<div style="display:flex;">' +
+                                        '<img src="static/baseicon_green.png" class="baseicon-image">' +
+                                        '<p>' + players_red[randRed].score + '</p>' +
                                     '</div>';
     }
     else
     {
         feedContainer.innerHTML += `<label class="feed-message" id="event_` + eventCount + `">` + players_green[randGreen].name + ` hit ` + players_red[randRed].name + '</label>';
 
-        scores_green[randGreen] = scores_green[randGreen] + hitValue; 
+        players_green[randGreen].score = players_green[randGreen].score + hitValue; 
         teamScore_green += hitValue;
         teamScoreLabel_green.textContent = teamScore_green;
 
         scorePointer = document.getElementById(`player-score-container_green_` + randGreen);
         scorePointer.innerHTML =    '<p>' + players_green[randGreen].name + '</p>' +
-                                        '<p>' + scores_green[randGreen] + '</p>' +
+                                    '<div style="display:flex;">' +
+                                        '<img src="static/baseicon_red.png" class="baseicon-image">' +
+                                        '<p>' + players_green[randGreen].score + '</p>' +
                                     '</div>';
     }
 });
