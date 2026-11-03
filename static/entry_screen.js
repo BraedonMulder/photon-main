@@ -151,14 +151,14 @@ document.addEventListener('keydown', function(event)
         {
             if(playerFields_red[i].enableButton.checked)
             {
-                players_red.push({id: playerFields_red[i].idField.value, name: playerFields_red[i].nameField.value, equipid: playerFields_red[i].equipmentField.value});
+                players_red.push({id: playerFields_red[i].idField.value, name: playerFields_red[i].nameField.value, equipid: playerFields_red[i].equipmentField.value}, {score: 0});
             }
         }
         for(let i = 0; i < playerFields_green.length; i++)
         {
             if(playerFields_green[i].enableButton.checked)
             {
-                players_green.push({id: playerFields_green[i].idField.value, name: playerFields_green[i].nameField.value, equipid: playerFields_green[i].equipmentField.value});
+                players_green.push({id: playerFields_green[i].idField.value, name: playerFields_green[i].nameField.value, equipid: playerFields_green[i].equipmentField.value}, {score: 0});
             }
         }
 
