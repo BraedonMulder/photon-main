@@ -95,8 +95,8 @@ fakePlayers_button.addEventListener('click', function()
     }
 
     // replace players
-    players_red = [{id: 0, name: 'apple', equipid: 100, score: 0},{id: 1, name: 'orange', equipid: 101, score: 0},{id: 2, name: 'lemon', equipid: 102, score: 0},{id: 3, name: 'kiwi', equipid: 103, score: 0}];
-    players_green = [{id: 4, name: 'tomato', equipid: 104, score: 0},{id: 5, name: 'cucumber', equipid: 105, score: 0},{id: 6, name: 'carrot', equipid: 106, score: 0},{id: 7, name: 'pepper', equipid: 107, score: 0}];
+    players_red = [{id: 0, name: 'apple', equipid: 100, score: 0, basecount: 0},{id: 1, name: 'orange', equipid: 101, score: 0, basecount: 1},{id: 2, name: 'lemon', equipid: 102, score: 0, basecount: 2},{id: 3, name: 'kiwi', equipid: 103, score: 0, basecount: 3}];
+    players_green = [{id: 4, name: 'tomato', equipid: 104, score: 0, basecount: 0},{id: 5, name: 'cucumber', equipid: 105, score: 0, basecount: 1},{id: 6, name: 'carrot', equipid: 106, score: 0, basecount: 2},{id: 7, name: 'pepper', equipid: 107, score: 0, basecount: 3}];
 
     // clear event feed
     feedContainer.innerHTML = "";
@@ -138,10 +138,14 @@ fakeEvent_button.addEventListener('click', function()
 
         scorePointer = document.getElementById(`player-score-container_red_` + randRed);
         scorePointer.innerHTML =    '<p>' + players_red[randRed].name + '</p>' +
-                                    '<div style="display:flex;">' +
-                                        '<img src="static/baseicon_green.png" class="baseicon-image">' +
-                                        '<p>' + players_red[randRed].score + '</p>' +
-                                    '</div>';
+                                    `<div id="playerScoreInner_red_` + randRed + `" style="display:flex;">` + '</div>';
+
+        let currentplayerScoreInner = document.getElementById(`playerScoreInner_red_` + randRed);
+        for(let i = 0; i < players_red[randRed].basecount; i++)
+        {
+            currentplayerScoreInner.innerHTML += '<img src="static/baseicon_green.png" class="baseicon-image_green"></img>';
+        } 
+        currentplayerScoreInner.innerHTML += '<p>' + players_red[randRed].score + '</p>';
     }
     else
     {
@@ -153,10 +157,14 @@ fakeEvent_button.addEventListener('click', function()
 
         scorePointer = document.getElementById(`player-score-container_green_` + randGreen);
         scorePointer.innerHTML =    '<p>' + players_green[randGreen].name + '</p>' +
-                                    '<div style="display:flex;">' +
-                                        '<img src="static/baseicon_red.png" class="baseicon-image">' +
-                                        '<p>' + players_green[randGreen].score + '</p>' +
-                                    '</div>';
+                                    `<div id="playerScoreInner_green_` + randGreen + `" style="display:flex;">` + '</div>';
+
+        let currentplayerScoreInner = document.getElementById(`playerScoreInner_green_` + randGreen);
+        for(let i = 0; i < players_green[randGreen].basecount; i++)
+        {
+            currentplayerScoreInner.innerHTML += '<img src="static/baseicon_red.png" class="baseicon-image_red"></img>';
+        } 
+        currentplayerScoreInner.innerHTML += '<p>' + players_green[randGreen].score + '</p>';
     }
 });
 

@@ -265,11 +265,24 @@ label{
     margin-right: 6px;
 }
 
-.baseicon-image{
+.baseicon-image_red{
     height: 15px;
     width: 25px;
     margin: auto;
+    margin-left: -15px;
+
+    filter: drop-shadow(0px 0px 6px rgb(181, 0, 24));
 }
+
+.baseicon-image_green{
+    height: 15px;
+    width: 25px;
+    margin: auto;
+    margin-left: -15px;
+
+    filter: drop-shadow(0px 0px 6px rgb(22, 168, 0));
+}
+
 .horizontal-flex{
     /* background-color: khaki; */
 
