@@ -82,6 +82,26 @@ function initializeScores()
 }
 initializeScores();
 
+//---------- EVENTS ---------//
+
+async function pollEvents(){
+	try{
+		let response = await fetch('api/score_buffer');
+		let data = await response.json;
+
+		if(data.events.length > 0){
+			data.events.foreach(item => {
+				let attacker = item[0];
+				let victim   = item[1];
+				console.log("processed event : attacker = ${attacker}, victim = ${victim}")
+			});
+		}
+	}catch(error) {
+		console.error("Error fetching events : ", error);
+	}
+}
+setInterval(pollEvents, 100);
+
 //---------- DEBUG ----------//
 
 // for testing formatting, score calls and such
