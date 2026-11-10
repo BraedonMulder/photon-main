@@ -8,6 +8,39 @@ var teamChunk_red = document.getElementById('team-chunk_red'),
     teamChunk_green_overflow = document.getElementById('team-chunk_green_overflow'),
     feedContainer = document.getElementById('feed-container');
 
+//---------- GAME TIMER ----------//
+
+var timerText = document.getElementById('timer-text');
+
+var gameTimeRemaining = 360; // 6 minutes
+
+function updateGameTimer()
+{
+    let minutes = Math.floor(gameTimeRemaining / 60);
+    let seconds = gameTimeRemaining % 60;
+
+    if(seconds < 10)
+    {
+        seconds = '0' + seconds;
+    }
+
+    timerText.textContent = 'Time Remaining: ' + minutes + ':' + seconds;
+
+    if(gameTimeRemaining > 0)
+    {
+        gameTimeRemaining--;
+    }
+    else
+    {
+        clearInterval(gameTimer);
+        console.log('Game over.');
+    }
+}
+
+updateGameTimer();
+
+var gameTimer = setInterval(updateGameTimer, 1000);
+
 //---------- NAME/SCORE ARRAYS ----------//
 
 var players_red = JSON.parse(sessionStorage.getItem("players_red"));
