@@ -37,17 +37,25 @@ def get_score():
         event_buffer.clear()
     return jsonify({"events" : pending_events})
 
-@app.route("/api/start_game")
+@app.route("/api/start_game", methods=["POST"])
 def start_game():
-    networking.broadcast_code(202)
+    try:
+        networking.broadcast_code(202)
+    except Exception as e
+        return jsonify(success=False)
+    return jsonify(success=True)
 
-@app.route("/api/end_game")
+@app.route("/api/end_game", methods=["POST"])
 def end_game():
-    networking.broadcast_code(211)
-    time.sleep(0.1)
-    networking.broadcast_code(211)
-    time.sleep(0.1)
-    networking.broadcast_code(211)
+    try:
+        networking.broadcast_code(211)
+        time.sleep(0.1)
+        networking.broadcast_code(211)
+        time.sleep(0.1)
+        networking.broadcast_code(211)
+    except Exception as e
+        return jsonify(success=False)
+    return jsonify(success=True)
 
 # shows the splash screen when the program starts
 @app.route("/")
