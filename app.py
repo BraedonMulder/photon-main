@@ -37,11 +37,11 @@ def get_score():
         event_buffer.clear()
     return jsonify({"events" : pending_events})
 
-@app.route("api/start_game")
+@app.route("/api/start_game")
 def start_game():
     networking.broadcast_code(202)
 
-@app.route("api/end_game")
+@app.route("/api/end_game")
 def end_game():
     networking.broadcast_code(211)
     time.sleep(0.1)
