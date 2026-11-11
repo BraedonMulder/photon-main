@@ -16,6 +16,7 @@ async function runCountdown(){
 		img.alt = 'Countdown ' + i;
 		await sleep(1000);
 	}
+	await fetch('/api/start_game', { method : 'POST' });
 	window.location.href = "/gamescreen";
 }
 runCountdown();
