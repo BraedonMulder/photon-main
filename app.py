@@ -41,7 +41,7 @@ def get_score():
 def start_game():
     try:
         networking.broadcast_code(202)
-    except Exception as e
+    except Exception as e:
         return jsonify(success=False)
     return jsonify(success=True)
 
@@ -53,7 +53,7 @@ def end_game():
         networking.broadcast_code(211)
         time.sleep(0.1)
         networking.broadcast_code(211)
-    except Exception as e
+    except Exception as e:
         return jsonify(success=False)
     return jsonify(success=True)
 
