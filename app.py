@@ -6,11 +6,11 @@ from udp_files.udp_transmit import broadcast_equipment_id
 import networking
 
 import threading
+import time
 
 event_buffer = []
 event_buffer_lock = threading.Lock()
 def network_listener():
-    #start up the netwo9rking thing and listen.
     networking.init() #put the network address for the game in here as a string like so "127.0.0.1".
     while True:
         codes = None
@@ -22,10 +22,10 @@ def network_listener():
         if codes[1] != 53 or codes[1] != 43:
             networking.broadcast_code(codes[1])
         elif (codes[0] % 2) == (codes[1] % 2):
-            networking.broadcase_code(codes[0])
+            networking.broadcast_code(codes[0])
 
         with event_buffer_lock:
-            #create event to send to front end and do locking stuff.
+            event_buffer.append(codes)
 
 # creates the Flask app
 app = Flask(__name__)
@@ -36,6 +36,18 @@ def get_score():
         pending_events = list(event_buffer)
         event_buffer.clear()
     return jsonify({"events" : pending_events})
+
+@app.route("api/start_game")
+def start_game():
+    networking.broadcast_code(202)
+
+@app.route("api/end_game")
+def end_game():
+    networking.broadcast_code(211)
+    time.sleep(0.1)
+    networking.broadcast_code(211)
+    time.sleep(0.1)
+    networking.broadcast_code(211)
 
 # shows the splash screen when the program starts
 @app.route("/")
@@ -135,4 +147,3 @@ if __name__ == "__main__":
     listener_thread = threading.Thread(target=network_listener, daemon=True)
     listener_thread.start()
     app.run(host="127.0.0.1", port=5000, debug=True) # REMEMBER TO SET THIS TO FALSE WHEN WE SUBMIT
-    print("\n\n-----------\nprogram finished")
