@@ -34,6 +34,25 @@ const hitValue = 10;
 
 function initializeScores()
 {
+    //---------- FRIENDLY FIRE ----------//
+
+// returns 'red', 'green', or null for a given equipment ID
+function getTeamByEquipId(equipid)
+{
+    if(players_red.some(function(p) { return p.equipid == equipid; })) return 'red';
+    if(players_green.some(function(p) { return p.equipid == equipid; })) return 'green';
+    return null;
+}
+
+// true if shooter and target are on the same team
+function isFriendlyFire(shooterEquipId, targetEquipId)
+{
+    var shooterTeam = getTeamByEquipId(shooterEquipId);
+    var targetTeam = getTeamByEquipId(targetEquipId);
+
+    return shooterTeam !== null && shooterTeam === targetTeam;
+}
+
     for(let i = 0; i < players_red.length; i++)
     {
         players_red[i].score = 0;
@@ -125,6 +144,18 @@ fakeEvent_button.addEventListener('click', function()
     {
         let targetEvent = eventCount - 8;
         document.getElementById(`event_` + targetEvent).remove();
+    }
+        // ~1 in 3 fake events are red-on-red, so friendly fire can be tested
+    if(Math.floor(Math.random() * 3) === 0 && players_red.length > 1)
+    {
+        let shooter = Math.floor(Math.random() * players_red.length);
+        let victim = (shooter + 1) % players_red.length;
+
+        if(isFriendlyFire(players_red[shooter].equipid, players_red[victim].equipid))
+        {
+            feedContainer.innerHTML += `<label class="feed-message" id="event_` + eventCount + `">` + players_red[shooter].name + ` hit teammate ` + players_red[victim].name + ` (friendly fire, no points)</label>`;
+            return;
+        }
     }
     
     // points and stuff. proof of concept, a little scuffed
