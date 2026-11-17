@@ -83,7 +83,7 @@ def init(source_address=None):
         receive_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)     # Sets socket to IPv4 and UDP.
         receive_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # Allows the socket to quickly reuse the address in case of failure.
         receive_sock.bind(("0.0.0.0", RECEIVE_PORT))                        # Listen for any ip address:port RECEIVE_PORT
-        receive_sock.settimeout(0.01)                                       # Sets the time in seconds that the socket will block before moving on when listening for traffic.
+#        receive_sock.settimeout(0.01)                                       # Sets the time in seconds that the socket will block before moving on when listening for traffic.
     #    _rx_sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 65536)    # Increase the packet buffer, probably not needed.
     except OSError as e:
         if transmit_sock:
@@ -100,10 +100,10 @@ def init(source_address=None):
 
 #init()
 ##receive_codes()
-#broadcast_code(221)
+#broadcast_code(202)
 #while(True):
 #    data = receive_codes()
 #    if data is not None:
 #        print(data)
 #        broadcast_code(data[0])
-# Lines for testing against the traffic generator
+##Lines for testing against the traffic generator

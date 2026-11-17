@@ -3,10 +3,59 @@ from flask import Flask, render_template, jsonify, request
 from database import get_player_by_id, save_player
 from udp_files.udp_transmit import broadcast_equipment_id
 
+import networking
 
+import threading
+import time
+
+event_buffer = []
+event_buffer_lock = threading.Lock()
+def network_listener():
+    networking.init() #put the network address for the game in here as a string like so "127.0.0.1".
+    while True:
+        codes = None
+        codes = networking.receive_codes()
+        if codes is None:
+            continue
+
+        #send out hit signal to those who have been hit and also friendly fire instances.
+        networking.broadcast_code(codes[1])
+        if codes[1] != 53 and codes[1] != 43:
+            if (codes[0] % 2) == (codes[1] % 2):
+                networking.broadcast_code(codes[0])
+
+        with event_buffer_lock:
+            event_buffer.append(codes)
 # creates the Flask app
 app = Flask(__name__)
 
+@app.route("/api/score_buffer")
+def get_score():
+    with event_buffer_lock:
+        pending_events = list(event_buffer)
+        event_buffer.clear()
+    response = jsonify({"events" : pending_events})
+    return jsonify({"events" : pending_events})
+
+@app.route("/api/start_game", methods=["POST"])
+def start_game():
+    try:
+        networking.broadcast_code(202)
+    except Exception as e:
+        return jsonify(success=False)
+    return jsonify(success=True)
+
+@app.route("/api/end_game", methods=["POST"])
+def end_game():
+    try:
+        networking.broadcast_code(211)
+        time.sleep(0.1)
+        networking.broadcast_code(211)
+        time.sleep(0.1)
+        networking.broadcast_code(211)
+    except Exception as e:
+        return jsonify(success=False)
+    return jsonify(success=True)
 
 # shows the splash screen when the program starts
 @app.route("/")
@@ -103,4 +152,6 @@ def send_equipment():
 
 
 if __name__ == "__main__":
+    listener_thread = threading.Thread(target=network_listener, daemon=True)
+    listener_thread.start()
     app.run(host="127.0.0.1", port=5000, debug=True) # REMEMBER TO SET THIS TO FALSE WHEN WE SUBMIT
