@@ -22,14 +22,10 @@ def network_listener():
         if codes[1] != 53 or codes[1] != 43:
             networking.broadcast_code(codes[1])
             if (codes[0] % 2) == (codes[1] % 2):
-                print("friendly fire????")
                 networking.broadcast_code(codes[0])
 
         with event_buffer_lock:
-            print("in lock")
             event_buffer.append(codes)
-            print("exit lock")
-
 # creates the Flask app
 app = Flask(__name__)
 
@@ -38,6 +34,7 @@ def get_score():
     with event_buffer_lock:
         pending_events = list(event_buffer)
         event_buffer.clear()
+    response = jsonify({"events" : pending_events})
     return jsonify({"events" : pending_events})
 
 @app.route("/api/start_game", methods=["POST"])

@@ -87,13 +87,13 @@ initializeScores();
 async function pollEvents(){
 	try{
 		let response = await fetch('api/score_buffer');
-		let data = await response.json;
+		let data = await response.json();
 
-		if(data.length > 0){
-			data.foreach(item => {
+		if(data.events && data.events.length > 0){
+			data.events.forEach(item => {
 				let attacker = item[0];
 				let victim   = item[1];
-				console.log("processed event : attacker = ${attacker}, victim = ${victim}")
+				console.log(`processed event : attacker = ${attacker}, victim = ${victim}`);
 			});
 		}
 	}catch(error) {
