@@ -19,8 +19,8 @@ def network_listener():
             continue
 
         #send out hit signal to those who have been hit and also friendly fire instances.
-        if codes[1] != 53 or codes[1] != 43:
-            networking.broadcast_code(codes[1])
+        networking.broadcast_code(codes[1])
+        if codes[1] != 53 and codes[1] != 43:
             if (codes[0] % 2) == (codes[1] % 2):
                 networking.broadcast_code(codes[0])
 
