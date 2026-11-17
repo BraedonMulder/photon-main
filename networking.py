@@ -100,10 +100,10 @@ def init(source_address=None):
 
 #init()
 ##receive_codes()
-#broadcast_code(221)
+#broadcast_code(202)
 #while(True):
 #    data = receive_codes()
 #    if data is not None:
 #        print(data)
 #        broadcast_code(data[0])
-# Lines for testing against the traffic generator
+##Lines for testing against the traffic generator

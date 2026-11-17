@@ -89,8 +89,8 @@ async function pollEvents(){
 		let response = await fetch('api/score_buffer');
 		let data = await response.json;
 
-		if(data.events.length > 0){
-			data.events.foreach(item => {
+		if(data.length > 0){
+			data.foreach(item => {
 				let attacker = item[0];
 				let victim   = item[1];
 				console.log("processed event : attacker = ${attacker}, victim = ${victim}")
@@ -100,7 +100,7 @@ async function pollEvents(){
 		console.error("Error fetching events : ", error);
 	}
 }
-setInterval(pollEvents, 100);
+setInterval(pollEvents, 1000);
 
 //---------- DEBUG ----------//
 

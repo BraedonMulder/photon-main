@@ -14,18 +14,21 @@ def network_listener():
     networking.init() #put the network address for the game in here as a string like so "127.0.0.1".
     while True:
         codes = None
-        networking.receive_codes()
+        codes = networking.receive_codes()
         if codes is None:
             continue
 
         #send out hit signal to those who have been hit and also friendly fire instances.
         if codes[1] != 53 or codes[1] != 43:
             networking.broadcast_code(codes[1])
-        elif (codes[0] % 2) == (codes[1] % 2):
-            networking.broadcast_code(codes[0])
+            if (codes[0] % 2) == (codes[1] % 2):
+                print("friendly fire????")
+                networking.broadcast_code(codes[0])
 
         with event_buffer_lock:
+            print("in lock")
             event_buffer.append(codes)
+            print("exit lock")
 
 # creates the Flask app
 app = Flask(__name__)
