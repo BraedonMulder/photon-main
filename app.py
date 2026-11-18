@@ -1,10 +1,12 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, send_from_directory
 
 from database import get_player_by_id, save_player
 from udp_files.udp_transmit import broadcast_equipment_id
 
 import networking
 
+import os
+import random
 import threading
 import time
 
@@ -36,6 +38,27 @@ def get_score():
         event_buffer.clear()
     response = jsonify({"events" : pending_events})
     return jsonify({"events" : pending_events})
+
+# folder that holds the game music (Track01.mp3 ... Track08.mp3)
+TRACK_FOLDER = os.path.join(app.root_path, "photon_tracks")
+
+
+# picks one of the saved music tracks at random and returns its URL
+@app.route("/api/random_track")
+def random_track():
+    tracks = [f for f in os.listdir(TRACK_FOLDER) if f.lower().endswith(".mp3")]
+
+    if not tracks:
+        return jsonify({"success": False, "message": "No music tracks found."}), 404
+
+    return jsonify({"success": True, "track": "/tracks/" + random.choice(tracks)})
+
+
+# serves a music file so the browser can play it
+@app.route("/tracks/<path:filename>")
+def serve_track(filename):
+    return send_from_directory(TRACK_FOLDER, filename)
+
 
 @app.route("/api/start_game", methods=["POST"])
 def start_game():
