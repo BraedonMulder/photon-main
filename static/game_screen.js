@@ -34,8 +34,11 @@ function updateGameTimer()
     {
         clearInterval(gameTimer);
         console.log('Game over.');
+        stopMusic();
     }
 }
+
+resumeMusic();
 
 updateGameTimer();
 
