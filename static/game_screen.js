@@ -130,7 +130,7 @@ async function pollEvents(){
 				let attacker = item[0];
 				let victim   = item[1];
 				console.log(`processed event : attacker = ${attacker}, victim = ${victim}`);
-        parseEvent(attacker, victim);
+        		parseEvent(attacker, victim);
 			});
 		}
 	}catch(error) {
