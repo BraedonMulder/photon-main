@@ -144,7 +144,7 @@ async function parseEvent(attackerID, victimID)
     let attacker;
     let victim; 
 
-    if(!(attackerID % 2)) // attacker on red team (even ID)
+    if((attackerID % 2)) // attacker on red team (odd ID)
     {
         console.log(`red attacker`);
         attacker = players_red.find(x => x.id == attackerID);
@@ -154,7 +154,7 @@ async function parseEvent(attackerID, victimID)
             return;
         }
     }
-    else // attacker on green team (odd ID)
+    else // attacker on green team (even ID)
     {
         console.log(`green attacker`);
         attacker = players_green.find(x => x.id == attackerID);
@@ -189,11 +189,11 @@ async function parseEvent(attackerID, victimID)
         return;
     }
 
-    if(!(victimID % 2)) // victim on red team (even ID)
+    if(victimID % 2) // victim on red team (odd ID)
     {
         victim = players_red.find(x => x.id == victimID);
     }
-    else // victim on green team (odd ID)
+    else // victim on green team (even ID)
     {
         victim = players_green.find(x => x.id == victimID);
     }
@@ -213,7 +213,7 @@ async function parseEvent(attackerID, victimID)
 async function eventFeedback(attacker, victimName)
 {
     // update attacker score card
-    if(!(attacker.id % 2)) // attacker on red team
+    if(attacker.id % 2) // attacker on red team
     {
         let scorePointer = document.getElementById(`player-score-container_red_` + attacker.id);
         scorePointer.innerHTML =    '<p>' + attacker.name + '</p>' +
