@@ -13,8 +13,9 @@ import time
 event_buffer = []
 event_buffer_lock = threading.Lock()
 network_thread = False
-def network_listener():
-    networking.init() #put the network address for the game in here as a string like so "127.0.0.1".
+network_thread_lock = threading.Lock()
+def network_listener(networking_address):
+    networking.init(networking_address) #put the network address for the game in here as a string like so "127.0.0.1".
     while True:
         codes = None
         codes = networking.receive_codes()
@@ -156,10 +157,11 @@ def send_equipment():
     network_address = data.get("network_address", "127.0.0.1").strip()
 
     global network_thread
-    if not network_thread:
-        listener_thread = threading.Thread(target=network_listener, daemon=True)
-        listener_thread.start()
-        network_thread = True
+    with network_thread_lock:
+        if not network_thread:
+            listener_thread = threading.Thread(target=network_listener, args=(network_address,), daemon=True)
+            listener_thread.start()
+            network_thread = True
 
     try:
         equipment_id = int(equipment_id)
