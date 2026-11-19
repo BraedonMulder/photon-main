@@ -26,7 +26,11 @@ bash install.sh
 
 After completing the installation process the application will be automatically started.
 
-If the application has already been installed, start it with:
+If the application has already been installed, first activate the python virtual environment with:
+
+    source venv/bin/activate
+
+Then start the program with:
 
     python3 app.py
 
