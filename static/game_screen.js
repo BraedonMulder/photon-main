@@ -40,14 +40,14 @@ function initializeScores()
 
         if(i <= 7) // split for better looking formatting. has no reprecussions past this
         {
-            teamChunk_red.innerHTML += '<div class="player-score-container" id="player-score-container_red_' + i + '">' + 
+            teamChunk_red.innerHTML += '<div class="player-score-container" id="player-score-container_red_' + players_red[i].id + '">' + 
                                             '<p>' + players_red[i].name + '</p>' +
                                             '<p>0</p>' +
                                         '</div>';
         }
         else
         {
-            teamChunk_red_overflow.innerHTML += '<div class="player-score-container" id="player-score-container_red_' + i + '">' + 
+            teamChunk_red_overflow.innerHTML += '<div class="player-score-container" id="player-score-container_red_' + players_red[i].id + '">' + 
                                         '<p>' + players_red[i].name + '</p>' +
                                         '<p>0</p>' +
                                     '</div>';
@@ -60,14 +60,14 @@ function initializeScores()
 
         if(i <= 7) // split for better looking formatting. has no reprecussions past this
         {
-            teamChunk_green.innerHTML += '<div class="player-score-container" id="player-score-container_green_' + i + '">' + 
+            teamChunk_green.innerHTML += '<div class="player-score-container" id="player-score-container_green_' + players_green[i].id + '">' + 
                                             '<p>' + players_green[i].name + '</p>' +
                                             '<p>0</p>' +
                                         '</div>';
         }
         else
         {
-            teamChunk_green_overflow.innerHTML += '<div class="player-score-container" id="player-score-container_green_' + i + '">' + 
+            teamChunk_green_overflow.innerHTML += '<div class="player-score-container" id="player-score-container_green_' + players_green[i].id + '">' + 
                                                         '<p>' + players_green[i].name + '</p>' +
                                                         '<p>0</p>' +
                                                 '</div>';
@@ -82,6 +82,148 @@ function initializeScores()
 }
 initializeScores();
 
+<<<<<<< Updated upstream
+=======
+//---------- EVENTS ---------//
+
+async function pollEvents(){
+	try{
+		let response = await fetch('api/score_buffer');
+		let data = await response.json();
+
+		if(data.events && data.events.length > 0){
+			data.events.forEach(item => {
+				let attacker = item[0];
+				let victim   = item[1];
+				console.log(`processed event : attacker = ${attacker}, victim = ${victim}`);
+                parseEvent(attacker, victim);
+			});
+		}
+	}catch(error) {
+		console.error("Error fetching events : ", error);
+	}
+}
+setInterval(pollEvents, 1000);
+
+async function parseEvent(attackerID, victimID)
+{
+    let attacker;
+    let victim; 
+
+    if(!(attackerID % 2)) // attacker on red team (even ID)
+    {
+        console.log(`red attacker`);
+        attacker = players_red.find(x => x.id == attackerID);
+        
+        if(victimID == 53) // friendly base hit
+        {
+            return;
+        }
+    }
+    else // attacker on green team (odd ID)
+    {
+        console.log(`green attacker`);
+        attacker = players_green.find(x => x.id == attackerID);
+
+        if(victimID == 43) // friendly base hit
+        {
+            return;
+        }
+    }
+    console.log(`attacker info: ` + attacker.id + ` ` + attacker.name + ` ` + attacker.score + ` ` + attacker.basecount);
+
+    if(victimID == 53 || victimID == 43) // enemy base hit
+    {
+        if(attacker.basecount == 1) // attacker has already hit base
+        {
+            return;
+        }
+
+        // attacker hit base for the first time
+        attacker.basecount = 1;
+        attacker.score += 100;
+        
+        if(victimID == 53)
+        {
+            eventFeedback(attacker, "Red Base");
+        }
+        else
+        {
+            eventFeedback(attacker, "Green Base");
+        }
+        
+        return;
+    }
+
+    if(!(victimID % 2)) // victim on red team (even ID)
+    {
+        victim = players_red.find(x => x.id == victimID);
+    }
+    else // victim on green team (odd ID)
+    {
+        victim = players_green.find(x => x.id == victimID);
+    }
+
+    if((attackerID % 2) != (victimID % 2)) // enemy hit
+    {
+        attacker.score += 10;
+        eventFeedback(attacker, victim.name);
+        
+        return;
+    }
+    
+    // friendly fire
+}
+
+// reflect score/base updates, log events
+async function eventFeedback(attacker, victimName)
+{
+    // update attacker score card
+    if(!(attacker.id % 2)) // attacker on red team
+    {
+        let scorePointer = document.getElementById(`player-score-container_red_` + attacker.id);
+        scorePointer.innerHTML =    '<p>' + attacker.name + '</p>' +
+                                    `<div id="playerScoreInner_red_` + attacker.id + `" style="display:flex;">` + '</div>';
+
+        let currentplayerScoreInner = document.getElementById(`playerScoreInner_red_` + attacker.id);
+        if(attacker.basecount == 1)
+        {
+            currentplayerScoreInner.innerHTML += '<img src="static/baseicon_green.png" class="baseicon-image_green"></img>';
+        }
+        currentplayerScoreInner.innerHTML += '<p>' + attacker.score + '</p>';
+
+        // update attacker's team's score
+        teamScore_red += hitValue;
+        teamScoreLabel_red.textContent = teamScore_red; 
+    }
+    else // attacker on green team
+    {
+        let scorePointer = document.getElementById(`player-score-container_green_` + attacker.id);
+        scorePointer.innerHTML =    '<p>' + attacker.name + '</p>' +
+                                    `<div id="playerScoreInner_green_` + attacker.id + `" style="display:flex;">` + '</div>';
+
+        let currentplayerScoreInner = document.getElementById(`playerScoreInner_green_` + attacker.id);
+        if(attacker.basecount == 1)
+        {
+            currentplayerScoreInner.innerHTML += '<img src="static/baseicon_red.png" class="baseicon-image_red"></img>';
+        }
+        currentplayerScoreInner.innerHTML += '<p>' + attacker.score + '</p>';
+
+        // update attacker's team's score
+        teamScore_green += hitValue;
+        teamScoreLabel_green.textContent = teamScore_green; 
+    }
+
+    // create new event in log
+    feedContainer.innerHTML += `<label class="feed-message">` + attacker.name + ` hit ` + victimName + '</label>';
+
+    while(feedContainer.children.length > 8)
+    {
+        feedContainer.firstElementChild.remove();
+    }
+}
+
+>>>>>>> Stashed changes
 //---------- DEBUG ----------//
 
 // for testing formatting, score calls and such
