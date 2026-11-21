@@ -70,25 +70,6 @@ const hitValue = 10;
 
 function initializeScores()
 {
-    //---------- FRIENDLY FIRE ----------//
-
-// returns 'red', 'green', or null for a given equipment ID
-function getTeamByEquipId(equipid)
-{
-    if(players_red.some(function(p) { return p.equipid == equipid; })) return 'red';
-    if(players_green.some(function(p) { return p.equipid == equipid; })) return 'green';
-    return null;
-}
-
-// true if shooter and target are on the same team
-function isFriendlyFire(shooterEquipId, targetEquipId)
-{
-    var shooterTeam = getTeamByEquipId(shooterEquipId);
-    var targetTeam = getTeamByEquipId(targetEquipId);
-
-    return shooterTeam !== null && shooterTeam === targetTeam;
-}
-
     for(let i = 0; i < players_red.length; i++)
     {
         players_red[i].score = 0;
@@ -226,6 +207,19 @@ async function parseEvent(attackerID, victimID)
     }
     
     // friendly fire
+
+    if(!victim || attackerID == victimID)
+    {
+        return;
+    }
+
+    console.log(`Friendly fire: attacker=${attackerID}, victim=${victimID} (0 points added)`);
+    feedContainer.innerHTML += `<label class="feed-message">` + attacker.name + ` hit teammate ` + victim.name + ` (friendly fire, no points)</label>`;
+
+    while(feedContainer.children.length > 8)
+    {
+        feedContainer.firstElementChild.remove();
+    }
 }
 
 // reflect score/base updates, log events
@@ -320,18 +314,6 @@ fakeEvent_button.addEventListener('click', function()
         let targetEvent = eventCount - 8;
         document.getElementById(`event_` + targetEvent).remove();
     }
-        // ~1 in 3 fake events are red-on-red, so friendly fire can be tested
-    if(Math.floor(Math.random() * 3) === 0 && players_red.length > 1)
-    {
-        let shooter = Math.floor(Math.random() * players_red.length);
-        let victim = (shooter + 1) % players_red.length;
-
-        if(isFriendlyFire(players_red[shooter].equipid, players_red[victim].equipid))
-        {
-            feedContainer.innerHTML += `<label class="feed-message" id="event_` + eventCount + `">` + players_red[shooter].name + ` hit teammate ` + players_red[victim].name + ` (friendly fire, no points)</label>`;
-            return;
-        }
-    }
     
     // points and stuff. proof of concept, a little scuffed
     if(Math.floor(Math.random() * 2))
@@ -372,6 +354,18 @@ fakeEvent_button.addEventListener('click', function()
         } 
         currentplayerScoreInner.innerHTML += '<p>' + players_green[randGreen].score + '</p>';
     }
+});
+
+var friendlyFire_button = document.getElementById('friendly-fire_button');
+friendlyFire_button.addEventListener('click', function()
+{
+    // red = odd ids, green = even ids, to match parseEvent
+    let useRed = Math.random() < 0.5;
+    let teammates = (useRed ? players_red : players_green).filter(p => (p.id % 2) == (useRed ? 1 : 0));
+
+    if(teammates.length < 2) return; // e.g. no players loaded yet
+
+    parseEvent(teammates[0].id, teammates[1].id);
 });
 
 var clearEventFeed_button = document.getElementById('clear-eventfeed_button');
