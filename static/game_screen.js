@@ -309,10 +309,9 @@ fakeEvent_button.addEventListener('click', function()
     let randGreen = Math.floor(Math.random() * players_green.length);
 
     // remove overflow event
-    if(eventCount > 8)
+    while(feedContainer.children.length >= 8)
     {
-        let targetEvent = eventCount - 8;
-        document.getElementById(`event_` + targetEvent).remove();
+        feedContainer.firstElementChild.remove();
     }
     
     // points and stuff. proof of concept, a little scuffed
@@ -324,11 +323,11 @@ fakeEvent_button.addEventListener('click', function()
         teamScore_red += hitValue;
         teamScoreLabel_red.textContent = teamScore_red;
 
-        scorePointer = document.getElementById(`player-score-container_red_` + randRed);
+        scorePointer = document.getElementById(`player-score-container_red_` + players_red[randRed].id);
         scorePointer.innerHTML =    '<p>' + players_red[randRed].name + '</p>' +
-                                    `<div id="playerScoreInner_red_` + randRed + `" style="display:flex;">` + '</div>';
+                                    `<div id="playerScoreInner_red_` + players_red[randRed].id + `" style="display:flex;">` + '</div>';
 
-        let currentplayerScoreInner = document.getElementById(`playerScoreInner_red_` + randRed);
+        let currentplayerScoreInner = document.getElementById(`playerScoreInner_red_` + players_red[randRed].id);
         for(let i = 0; i < players_red[randRed].basecount; i++)
         {
             currentplayerScoreInner.innerHTML += '<img src="static/baseicon_green.png" class="baseicon-image_green"></img>';
@@ -343,11 +342,11 @@ fakeEvent_button.addEventListener('click', function()
         teamScore_green += hitValue;
         teamScoreLabel_green.textContent = teamScore_green;
 
-        scorePointer = document.getElementById(`player-score-container_green_` + randGreen);
+        scorePointer = document.getElementById(`player-score-container_green_` + players_green[randGreen].id);
         scorePointer.innerHTML =    '<p>' + players_green[randGreen].name + '</p>' +
-                                    `<div id="playerScoreInner_green_` + randGreen + `" style="display:flex;">` + '</div>';
+                                    `<div id="playerScoreInner_green_` + players_green[randGreen].id + `" style="display:flex;">` + '</div>';
 
-        let currentplayerScoreInner = document.getElementById(`playerScoreInner_green_` + randGreen);
+        let currentplayerScoreInner = document.getElementById(`playerScoreInner_green_` + players_green[randGreen].id);
         for(let i = 0; i < players_green[randGreen].basecount; i++)
         {
             currentplayerScoreInner.innerHTML += '<img src="static/baseicon_red.png" class="baseicon-image_red"></img>';
