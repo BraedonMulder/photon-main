@@ -119,4 +119,21 @@ The instructor's traffic generator simulates players sending hit data to the gam
 | `install.sh` | Installs dependencies and starts the app |
 | `Requirements.txt` | Python package list |
 
-**Important:** Remember to enter equipment ID in order to see the players in the entered in the entry screen once the game starts.
+**Important:** Remember to enter equipment ID's to see the players in the entered in the entry screen once the game starts.
+
+## Testing with the Traffic Generator
+
+Teams are determined by equipment ID parity:
+
+- **Red team:** odd equipment IDs (1, 3, 101, 103, ...)
+- **Green team:** even equipment IDs (2, 4, 102, 104, ...)
+
+When running `udp_files/python_trafficgenarator_v2.py`, enter two odd IDs for the red players and two even IDs for the green players, and make sure those same equipment IDs were entered on the player entry screen. Otherwise hits can't be matched to players, and same-team hits will be treated as enemy hits.
+
+Example: red = 101 and 103, green = 102 and 104.
+
+### Test run order
+1. Start the app: `python3 app.py`
+2. On the player entry screen, enter players and submit their equipment IDs **(Make sure Red is odd and Green is even)**.
+3. In a second terminal, start the generator and enter the four IDs. Leave it on "waiting for start".
+4. Start the game from the app. The generator begins sending hits once the app broadcasts the start code (202).
