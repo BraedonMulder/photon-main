@@ -84,7 +84,7 @@ The music keeps playing during the game and stops when the timer reaches 0:00.
 | --- | --- |
 | Tagging a player on the other team | +10 points |
 | Tagging the other team's base (red base code 53, green base code 43) | +100 points, and a base icon is shown next to the player's name for the rest of the game. Only the first base hit counts. |
-| Tagging a teammate (friendly fire) | No points; shown in the event feed |
+| Tagging a teammate (friendly fire) | -10 points for both players involved. |
 
 ## Testing with the Traffic Generator
 
