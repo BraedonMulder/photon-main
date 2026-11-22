@@ -73,11 +73,11 @@ def start_game():
 @app.route("/api/end_game", methods=["POST"])
 def end_game():
     try:
-        networking.broadcast_code(211)
+        networking.broadcast_code(221)
         time.sleep(0.1)
-        networking.broadcast_code(211)
+        networking.broadcast_code(221)
         time.sleep(0.1)
-        networking.broadcast_code(211)
+        networking.broadcast_code(221)
     except Exception as e:
         return jsonify(success=False)
     return jsonify(success=True)

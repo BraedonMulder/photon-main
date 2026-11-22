@@ -35,6 +35,13 @@ function updateGameTimer()
         clearInterval(gameTimer);
         console.log('Game over.');
         stopMusic();
+
+        fetch('/api/end_game',
+        {
+            method: 'POST' // pop up for when game is over
+        });
+    
+        alert('Game Over! Return to the player entry screen to start a new game.');
     }
 }
 
@@ -147,7 +154,7 @@ async function parseEvent(attackerID, victimID)
     if((attackerID % 2)) // attacker on red team (odd ID)
     {
         console.log(`red attacker`);
-        attacker = players_red.find(x => x.id == attackerID);
+        attacker = players_red.find(x => x.equipid == attackerID);
         
         if(victimID == 53) // friendly base hit
         {
@@ -157,7 +164,7 @@ async function parseEvent(attackerID, victimID)
     else // attacker on green team (even ID)
     {
         console.log(`green attacker`);
-        attacker = players_green.find(x => x.id == attackerID);
+        attacker = players_green.find(x => x.equipid == attackerID);
 
         if(victimID == 43) // friendly base hit
         {
@@ -191,11 +198,11 @@ async function parseEvent(attackerID, victimID)
 
     if(victimID % 2) // victim on red team (odd ID)
     {
-        victim = players_red.find(x => x.id == victimID);
+        victim = players_red.find(x => x.equipid == victimID);
     }
     else // victim on green team (even ID)
     {
-        victim = players_green.find(x => x.id == victimID);
+        victim = players_green.find(x => x.equipid == victimID);
     }
 
     if((attackerID % 2) != (victimID % 2)) // enemy hit
@@ -226,7 +233,7 @@ async function parseEvent(attackerID, victimID)
 async function eventFeedback(attacker, victimName)
 {
     // update attacker score card
-    if(attacker.id % 2) // attacker on red team
+    if(attacker.equipid % 2) // attacker on red team
     {
         let scorePointer = document.getElementById(`player-score-container_red_` + attacker.id);
         scorePointer.innerHTML =    '<p>' + attacker.name + '</p>' +
@@ -364,7 +371,7 @@ friendlyFire_button.addEventListener('click', function()
 
     if(teammates.length < 2) return; // e.g. no players loaded yet
 
-    parseEvent(teammates[0].id, teammates[1].id);
+    parseEvent(teammates[0].equipid, teammates[1].equipid);
 });
 
 var clearEventFeed_button = document.getElementById('clear-eventfeed_button');
