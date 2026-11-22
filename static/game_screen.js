@@ -303,16 +303,20 @@ async function parseEvent(attackerID, victimID)
         
         return;
     }
-    
-    // friendly fire
 
+    // friendly fire: both players lose 10 points
     if(!victim || attackerID == victimID)
     {
+        console.log(`friendly fire skipped: attacker=${attackerID}, victim=${victimID}, victim found=${!!victim}`);
         return;
     }
 
-    console.log(`Friendly fire: attacker=${attackerID}, victim=${victimID} (0 points added)`);
-    feedContainer.innerHTML += `<label class="feed-message">` + attacker.name + ` hit teammate ` + victim.name + ` (friendly fire, no points)</label>`;
+    attacker.score -= 10;
+    victim.score -= 10;
+
+    drawScores(false);
+
+    feedContainer.innerHTML += `<label class="feed-message">` + attacker.name + ` hit teammate ` + victim.name + ` (friendly fire, -10 each)</label>`;
 
     while(feedContainer.children.length > 8)
     {
