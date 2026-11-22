@@ -12,8 +12,10 @@ import time
 
 event_buffer = []
 event_buffer_lock = threading.Lock()
-def network_listener():
-    networking.init() #put the network address for the game in here as a string like so "127.0.0.1".
+network_thread = False
+network_thread_lock = threading.Lock()
+def network_listener(networking_address):
+    networking.init(networking_address) #put the network address for the game in here as a string like so "127.0.0.1".
     while True:
         codes = None
         codes = networking.receive_codes()
@@ -71,11 +73,11 @@ def start_game():
 @app.route("/api/end_game", methods=["POST"])
 def end_game():
     try:
-        networking.broadcast_code(211)
+        networking.broadcast_code(221)
         time.sleep(0.1)
-        networking.broadcast_code(211)
+        networking.broadcast_code(221)
         time.sleep(0.1)
-        networking.broadcast_code(211)
+        networking.broadcast_code(221)
     except Exception as e:
         return jsonify(success=False)
     return jsonify(success=True)
@@ -154,6 +156,13 @@ def send_equipment():
     equipment_id = data.get("equipment_id")
     network_address = data.get("network_address", "127.0.0.1").strip()
 
+    global network_thread
+    with network_thread_lock:
+        if not network_thread:
+            listener_thread = threading.Thread(target=network_listener, args=(network_address,), daemon=True)
+            listener_thread.start()
+            network_thread = True
+
     try:
         equipment_id = int(equipment_id)
     except (ValueError, TypeError):
@@ -175,6 +184,4 @@ def send_equipment():
 
 
 if __name__ == "__main__":
-    listener_thread = threading.Thread(target=network_listener, daemon=True)
-    listener_thread.start()
     app.run(host="127.0.0.1", port=5000, debug=True) # REMEMBER TO SET THIS TO FALSE WHEN WE SUBMIT

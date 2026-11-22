@@ -35,6 +35,13 @@ function updateGameTimer()
         clearInterval(gameTimer);
         console.log('Game over.');
         stopMusic();
+
+        fetch('/api/end_game',
+        {
+            method: 'POST' // pop up for when game is over
+        });
+    
+        alert('Game Over! Return to the player entry screen to start a new game.');
     }
 }
 
@@ -238,7 +245,7 @@ async function parseEvent(attackerID, victimID)
     if((attackerID % 2)) // attacker on red team (odd ID)
     {
         console.log(`red attacker`);
-        attacker = players_red.find(x => x.id == attackerID);
+        attacker = players_red.find(x => x.equipid == attackerID);
         
         if(victimID == 53) // friendly base hit
         {
@@ -248,7 +255,7 @@ async function parseEvent(attackerID, victimID)
     else // attacker on green team (even ID)
     {
         console.log(`green attacker`);
-        attacker = players_green.find(x => x.id == attackerID);
+        attacker = players_green.find(x => x.equipid == attackerID);
 
         if(victimID == 43) // friendly base hit
         {
@@ -282,11 +289,11 @@ async function parseEvent(attackerID, victimID)
 
     if(victimID % 2) // victim on red team (odd ID)
     {
-        victim = players_red.find(x => x.id == victimID);
+        victim = players_red.find(x => x.equipid == victimID);
     }
     else // victim on green team (even ID)
     {
-        victim = players_green.find(x => x.id == victimID);
+        victim = players_green.find(x => x.equipid == victimID);
     }
 
     if((attackerID % 2) != (victimID % 2)) // enemy hit
@@ -298,6 +305,19 @@ async function parseEvent(attackerID, victimID)
     }
     
     // friendly fire
+
+    if(!victim || attackerID == victimID)
+    {
+        return;
+    }
+
+    console.log(`Friendly fire: attacker=${attackerID}, victim=${victimID} (0 points added)`);
+    feedContainer.innerHTML += `<label class="feed-message">` + attacker.name + ` hit teammate ` + victim.name + ` (friendly fire, no points)</label>`;
+
+    while(feedContainer.children.length > 8)
+    {
+        feedContainer.firstElementChild.remove();
+    }
 }
 
 // reflect score/base updates, log events
@@ -353,10 +373,9 @@ fakeEvent_button.addEventListener('click', function()
     let randGreen = Math.floor(Math.random() * players_green.length);
 
     // remove overflow event
-    if(eventCount > 8)
+    while(feedContainer.children.length >= 8)
     {
-        let targetEvent = eventCount - 8;
-        document.getElementById(`event_` + targetEvent).remove();
+        feedContainer.firstElementChild.remove();
     }
     
     // points and stuff. proof of concept, a little scuffed
@@ -368,11 +387,11 @@ fakeEvent_button.addEventListener('click', function()
         teamScore_red += hitValue;
         teamScoreLabel_red.textContent = teamScore_red;
 
-        scorePointer = document.getElementById(`player-score-container_red_` + randRed);
+        scorePointer = document.getElementById(`player-score-container_red_` + players_red[randRed].id);
         scorePointer.innerHTML =    '<p>' + players_red[randRed].name + '</p>' +
-                                    `<div id="playerScoreInner_red_` + randRed + `" style="display:flex;">` + '</div>';
+                                    `<div id="playerScoreInner_red_` + players_red[randRed].id + `" style="display:flex;">` + '</div>';
 
-        let currentplayerScoreInner = document.getElementById(`playerScoreInner_red_` + randRed);
+        let currentplayerScoreInner = document.getElementById(`playerScoreInner_red_` + players_red[randRed].id);
         for(let i = 0; i < players_red[randRed].basecount; i++)
         {
             currentplayerScoreInner.innerHTML += '<img src="static/baseicon_green.png" class="baseicon-image_green"></img>';
@@ -387,17 +406,29 @@ fakeEvent_button.addEventListener('click', function()
         teamScore_green += hitValue;
         teamScoreLabel_green.textContent = teamScore_green;
 
-        scorePointer = document.getElementById(`player-score-container_green_` + randGreen);
+        scorePointer = document.getElementById(`player-score-container_green_` + players_green[randGreen].id);
         scorePointer.innerHTML =    '<p>' + players_green[randGreen].name + '</p>' +
-                                    `<div id="playerScoreInner_green_` + randGreen + `" style="display:flex;">` + '</div>';
+                                    `<div id="playerScoreInner_green_` + players_green[randGreen].id + `" style="display:flex;">` + '</div>';
 
-        let currentplayerScoreInner = document.getElementById(`playerScoreInner_green_` + randGreen);
+        let currentplayerScoreInner = document.getElementById(`playerScoreInner_green_` + players_green[randGreen].id);
         for(let i = 0; i < players_green[randGreen].basecount; i++)
         {
             currentplayerScoreInner.innerHTML += '<img src="static/baseicon_red.png" class="baseicon-image_red"></img>';
         } 
         currentplayerScoreInner.innerHTML += '<p>' + players_green[randGreen].score + '</p>';
     }
+});
+
+var friendlyFire_button = document.getElementById('friendly-fire_button');
+friendlyFire_button.addEventListener('click', function()
+{
+    // red = odd ids, green = even ids, to match parseEvent
+    let useRed = Math.random() < 0.5;
+    let teammates = (useRed ? players_red : players_green).filter(p => (p.id % 2) == (useRed ? 1 : 0));
+
+    if(teammates.length < 2) return; // e.g. no players loaded yet
+
+    parseEvent(teammates[0].equipid, teammates[1].equipid);
 });
 
 var clearEventFeed_button = document.getElementById('clear-eventfeed_button');
