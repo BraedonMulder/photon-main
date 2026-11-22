@@ -38,7 +38,7 @@ If your environment uses `python` instead of `python3`, run:
 
     python app.py
 
-Then open the HTTP address shown in the terminal in your browser.
+Then open the HTTP address (http://127.0.0.1:5000) shown in the terminal in your browser.
 
 ## Splash Screen
 
@@ -61,6 +61,7 @@ Red players use odd equipment IDs and green players use even equipment IDs.
 | --- | --- |
 | `Ctrl` + `Enter` | Start the game: shows the countdown, then the Play Action Display |
 | `Ctrl` + `Fn` + `Delete` | Clear all player entries on the Player Entry screen |
+| `Ctrl` + `Backspace` | Return to Player Entry screen from Play Action Display |
 
 ## Countdown and Music
 
@@ -104,19 +105,6 @@ The instructor's traffic generator simulates players sending hit data to the gam
 | 7500 | The game broadcasts equipment IDs, hit codes and start/stop codes |
 | 7501 | The game listens for hit data (`attacker:victim`) from the equipment |
 
-## Debug Buttons
-
-The buttons at the bottom of the Play Action Display are for testing:
-
-| Button | Action |
-| --- | --- |
-| fake players | Replaces the players with sample players |
-| fake event | Creates a random hit |
-| friendly fire | Creates a random friendly fire hit |
-| clear event feed | Clears the event feed |
-| clear scores | Resets all scores to 0 |
-| return to entry screen | Goes back to the Player Entry screen |
-
 ## Project Structure
 
 | File / Folder | Purpose |
@@ -131,7 +119,4 @@ The buttons at the bottom of the Play Action Display are for testing:
 | `install.sh` | Installs dependencies and starts the app |
 | `Requirements.txt` | Python package list |
 
-
-Once your server is running : Connect to 127.0.0.1:5000 in a web browser
-
-**Important:** Remeber to enter equipment ID in order to see the players in the entered in the entry screen once the game starts.
+**Important:** Remember to enter equipment ID in order to see the players in the entered in the entry screen once the game starts.
