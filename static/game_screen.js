@@ -64,59 +64,150 @@ var teamScore_green = 0;
 var teamScoreLabel_red = document.getElementById('team-score-label_red');
 var teamScoreLabel_green = document.getElementById('team-score-label_green');
 
-const hitValue = 10;
-
 //---------- CREATE HTML ELEMENTS ----------//
 
-function initializeScores()
+let scoreCompare = (a, b) => 
 {
+    if(a.score < b.score)
+    {
+        return 1;
+    }
+    if(a.score > b.score)
+    {
+        return -1;
+    }
+    return 0;
+}
+
+function drawScores(initialize)
+{
+    teamScore_red = 0;
+    teamScore_green = 0;
+
+    teamChunk_red.innerHTML = "";
+    teamChunk_red_overflow.innerHTML = "";
+    teamChunk_green.innerHTML = "";
+    teamChunk_green_overflow.innerHTML = "";
+
+    if(!initialize)
+    {
+        players_red.sort(scoreCompare);
+        players_green.sort(scoreCompare);
+    }
+
     for(let i = 0; i < players_red.length; i++)
     {
-        players_red[i].score = 0;
+        let currPlayer = players_red[i];
+
+        if(initialize)
+        {
+            currPlayer.score = 0;
+            currPlayer.basecount = 0;
+        }
+        else
+        {
+            teamScore_red += currPlayer.score;
+        }
+
+        let baseScoreHTML = ``;
+
+        if(currPlayer.basecount)
+        {
+            baseScoreHTML = '<img src="static/baseicon_green.png" class="baseicon-image_green"></img>' +
+                            '<p>' + currPlayer.score + '</p>';
+        }
+        else
+        {
+            baseScoreHTML = '<p>' + currPlayer.score + '</p>';
+        }
 
         if(i <= 7) // split for better looking formatting. has no reprecussions past this
         {
-            teamChunk_red.innerHTML += '<div class="player-score-container" id="player-score-container_red_' + players_red[i].id + '">' + 
-                                            '<p>' + players_red[i].name + '</p>' +
-                                            '<p>0</p>' +
+            teamChunk_red.innerHTML += '<div class="player-score-container">' + 
+                                            '<p>' + currPlayer.name + '</p>' +
+                                            `<div style="display:flex;">` + 
+                                            baseScoreHTML +
+                                            '</div>' +
                                         '</div>';
         }
         else
         {
-            teamChunk_red_overflow.innerHTML += '<div class="player-score-container" id="player-score-container_red_' + players_red[i].id + '">' + 
-                                        '<p>' + players_red[i].name + '</p>' +
-                                        '<p>0</p>' +
-                                    '</div>';
+            teamChunk_red_overflow.innerHTML += '<div class="player-score-container">' + 
+                                '<p>' + currPlayer.name + '</p>' +
+                                `<div style="display:flex;">` + 
+                                baseScoreHTML +
+                                '</div>' +
+                            '</div>';
         }
     }
 
     for(let i = 0; i < players_green.length; i++)
     {
-        players_green[i].score = 0;
+        let currPlayer = players_green[i];
+
+        if(initialize)
+        {
+            currPlayer.score = 0;
+            currPlayer.basecount = 0;
+        }
+        else
+        {
+            teamScore_green += currPlayer.score;
+        }
+
+        let baseScoreHTML = ``;
+
+        if(currPlayer.basecount)
+        {
+            baseScoreHTML = '<img src="static/baseicon_red.png" class="baseicon-image_red"></img>' +
+                            '<p>' + currPlayer.score + '</p>';
+        }
+        else
+        {
+            baseScoreHTML = '<p>' + currPlayer.score + '</p>';
+        }
 
         if(i <= 7) // split for better looking formatting. has no reprecussions past this
         {
-            teamChunk_green.innerHTML += '<div class="player-score-container" id="player-score-container_green_' + players_green[i].id + '">' + 
-                                            '<p>' + players_green[i].name + '</p>' +
-                                            '<p>0</p>' +
+            teamChunk_green.innerHTML += '<div class="player-score-container">' + 
+                                            '<p>' + currPlayer.name + '</p>' +
+                                            `<div style="display:flex;">` + 
+                                            baseScoreHTML +
+                                            '</div>' +
                                         '</div>';
         }
         else
         {
-            teamChunk_green_overflow.innerHTML += '<div class="player-score-container" id="player-score-container_green_' + players_green[i].id + '">' + 
-                                                        '<p>' + players_green[i].name + '</p>' +
-                                                        '<p>0</p>' +
-                                                '</div>';
+            teamChunk_green_overflow.innerHTML += '<div class="player-score-container">' + 
+                                '<p>' + currPlayer.name + '</p>' +
+                                `<div style="display:flex;">` + 
+                                baseScoreHTML +
+                                '</div>' +
+                            '</div>';
         }
     }
 
-    teamScore_red = 0;
-    teamScore_green = 0;
+    teamScoreLabel_red.textContent = teamScore_red;
+    teamScoreLabel_green.textContent = teamScore_green;
 
-    teamScoreLabel_red.textContent = 0;
-    teamScoreLabel_green.textContent = 0;
+    // assign blinking attribute
+    if(teamScore_red > teamScore_green)
+    {
+        teamScoreLabel_red.className = "teamscore-leading";
+        teamScoreLabel_green.className = "";
+    }
+    else if(teamScore_red < teamScore_green)
+    {
+        teamScoreLabel_red.className = "";
+        teamScoreLabel_green.className = "teamscore-leading";
+    }
+    else
+    {
+        teamScoreLabel_red.className = "";
+        teamScoreLabel_green.className = "";
+    }
 }
-initializeScores();
+drawScores(true);
 
 //---------- EVENTS ---------//
 
@@ -212,41 +303,7 @@ async function parseEvent(attackerID, victimID)
 // reflect score/base updates, log events
 async function eventFeedback(attacker, victimName)
 {
-    // update attacker score card
-    if(attacker.id % 2) // attacker on red team
-    {
-        let scorePointer = document.getElementById(`player-score-container_red_` + attacker.id);
-        scorePointer.innerHTML =    '<p>' + attacker.name + '</p>' +
-                                    `<div id="playerScoreInner_red_` + attacker.id + `" style="display:flex;">` + '</div>';
-
-        let currentplayerScoreInner = document.getElementById(`playerScoreInner_red_` + attacker.id);
-        if(attacker.basecount == 1)
-        {
-            currentplayerScoreInner.innerHTML += '<img src="static/baseicon_green.png" class="baseicon-image_green"></img>';
-        }
-        currentplayerScoreInner.innerHTML += '<p>' + attacker.score + '</p>';
-
-        // update attacker's team's score
-        teamScore_red += hitValue;
-        teamScoreLabel_red.textContent = teamScore_red; 
-    }
-    else // attacker on green team
-    {
-        let scorePointer = document.getElementById(`player-score-container_green_` + attacker.id);
-        scorePointer.innerHTML =    '<p>' + attacker.name + '</p>' +
-                                    `<div id="playerScoreInner_green_` + attacker.id + `" style="display:flex;">` + '</div>';
-
-        let currentplayerScoreInner = document.getElementById(`playerScoreInner_green_` + attacker.id);
-        if(attacker.basecount == 1)
-        {
-            currentplayerScoreInner.innerHTML += '<img src="static/baseicon_red.png" class="baseicon-image_red"></img>';
-        }
-        currentplayerScoreInner.innerHTML += '<p>' + attacker.score + '</p>';
-
-        // update attacker's team's score
-        teamScore_green += hitValue;
-        teamScoreLabel_green.textContent = teamScore_green; 
-    }
+    drawScores(false);
 
     // create new event in log
     feedContainer.innerHTML += `<label class="feed-message">` + attacker.name + ` hit ` + victimName + '</label>';
