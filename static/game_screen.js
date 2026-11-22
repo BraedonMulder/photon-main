@@ -334,123 +334,15 @@ async function eventFeedback(attacker, victimName)
     }
 }
 
-//---------- DEBUG ----------//
+//---------- RETURN TO ENTRY SCREEN ----------//
+//---------- Control + Backspace ----------//
 
-// for testing formatting, score calls and such
-
-var fakePlayers_button = document.getElementById('fake-players_button');
-fakePlayers_button.addEventListener('click', function()
+document.addEventListener('keydown', function(event)
 {
-    if(confirm('This will replace any entered players with sample players, are you sure?') == false)
+    if(event.key == 'Backspace' && event.ctrlKey)
     {
-        return;
+        event.preventDefault();
+
+        window.location.href = "/players";
     }
-
-    // replace players
-    players_red = [{id: 0, name: 'apple', equipid: 100, score: 0, basecount: 0},{id: 1, name: 'orange', equipid: 101, score: 0, basecount: 1},{id: 2, name: 'lemon', equipid: 102, score: 0, basecount: 2},{id: 3, name: 'kiwi', equipid: 103, score: 0, basecount: 3}];
-    players_green = [{id: 4, name: 'tomato', equipid: 104, score: 0, basecount: 0},{id: 5, name: 'cucumber', equipid: 105, score: 0, basecount: 1},{id: 6, name: 'carrot', equipid: 106, score: 0, basecount: 2},{id: 7, name: 'pepper', equipid: 107, score: 0, basecount: 3}];
-
-    // clear event feed
-    feedContainer.innerHTML = "";
-    eventCount = 0;
-
-    // clear scores
-    teamChunk_red.innerHTML = "";
-    teamChunk_red_overflow.innerHTML = "";
-    teamChunk_green.innerHTML = "";
-    teamChunk_green_overflow.innerHTML = "";
-    initializeScores();
-});
-
-var eventCount = 0;
-var fakeEvent_button = document.getElementById('fake-event_button');
-fakeEvent_button.addEventListener('click', function()
-{
-    eventCount++;
-
-    // pick random players
-    let randRed = Math.floor(Math.random() * players_red.length);
-    let randGreen = Math.floor(Math.random() * players_green.length);
-
-    // remove overflow event
-    while(feedContainer.children.length >= 8)
-    {
-        feedContainer.firstElementChild.remove();
-    }
-    
-    // points and stuff. proof of concept, a little scuffed
-    if(Math.floor(Math.random() * 2))
-    {
-        feedContainer.innerHTML += `<label class="feed-message" id="event_` + eventCount + `">` + players_red[randRed].name + ` hit ` + players_green[randGreen].name + '</label>';
-
-        players_red[randRed].score = players_red[randRed].score + hitValue;
-        teamScore_red += hitValue;
-        teamScoreLabel_red.textContent = teamScore_red;
-
-        scorePointer = document.getElementById(`player-score-container_red_` + players_red[randRed].id);
-        scorePointer.innerHTML =    '<p>' + players_red[randRed].name + '</p>' +
-                                    `<div id="playerScoreInner_red_` + players_red[randRed].id + `" style="display:flex;">` + '</div>';
-
-        let currentplayerScoreInner = document.getElementById(`playerScoreInner_red_` + players_red[randRed].id);
-        for(let i = 0; i < players_red[randRed].basecount; i++)
-        {
-            currentplayerScoreInner.innerHTML += '<img src="static/baseicon_green.png" class="baseicon-image_green"></img>';
-        } 
-        currentplayerScoreInner.innerHTML += '<p>' + players_red[randRed].score + '</p>';
-    }
-    else
-    {
-        feedContainer.innerHTML += `<label class="feed-message" id="event_` + eventCount + `">` + players_green[randGreen].name + ` hit ` + players_red[randRed].name + '</label>';
-
-        players_green[randGreen].score = players_green[randGreen].score + hitValue; 
-        teamScore_green += hitValue;
-        teamScoreLabel_green.textContent = teamScore_green;
-
-        scorePointer = document.getElementById(`player-score-container_green_` + players_green[randGreen].id);
-        scorePointer.innerHTML =    '<p>' + players_green[randGreen].name + '</p>' +
-                                    `<div id="playerScoreInner_green_` + players_green[randGreen].id + `" style="display:flex;">` + '</div>';
-
-        let currentplayerScoreInner = document.getElementById(`playerScoreInner_green_` + players_green[randGreen].id);
-        for(let i = 0; i < players_green[randGreen].basecount; i++)
-        {
-            currentplayerScoreInner.innerHTML += '<img src="static/baseicon_red.png" class="baseicon-image_red"></img>';
-        } 
-        currentplayerScoreInner.innerHTML += '<p>' + players_green[randGreen].score + '</p>';
-    }
-});
-
-var friendlyFire_button = document.getElementById('friendly-fire_button');
-friendlyFire_button.addEventListener('click', function()
-{
-    // red = odd ids, green = even ids, to match parseEvent
-    let useRed = Math.random() < 0.5;
-    let teammates = (useRed ? players_red : players_green).filter(p => (p.id % 2) == (useRed ? 1 : 0));
-
-    if(teammates.length < 2) return; // e.g. no players loaded yet
-
-    parseEvent(teammates[0].equipid, teammates[1].equipid);
-});
-
-var clearEventFeed_button = document.getElementById('clear-eventfeed_button');
-clearEventFeed_button.addEventListener('click', function()
-{
-    feedContainer.innerHTML = "";
-    eventCount = 0;
-});
-
-var clearScores_button = document.getElementById('clear-scores_button');
-clearScores_button.addEventListener('click', function()
-{
-    teamChunk_red.innerHTML = "";
-    teamChunk_red_overflow.innerHTML = "";
-    teamChunk_green.innerHTML = "";
-    teamChunk_green_overflow.innerHTML = "";
-
-    initializeScores();
-});
-
-var quitGame_button = document.getElementById('quit-game_button')
-quitGame_button.addEventListener('click', function()
-{
-    window.location.href = "/players";
 });
