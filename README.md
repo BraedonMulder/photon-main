@@ -133,3 +133,5 @@ The buttons at the bottom of the Play Action Display are for testing:
 
 
 Once your server is running : Connect to 127.0.0.1:5000 in a web browser
+
+**Important:** Remeber to enter equipment ID in order to see the players in the entered in the entry screen once the game starts.
