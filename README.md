@@ -76,7 +76,7 @@ The Play Action Display shows:
 - an event feed showing the latest hits
 - a 6-minute game timer, which starts when the countdown ends
 
-The music keeps playing during the game and stops when the timer reaches 0:00.
+The music keeps playing during the game. When the timer reaches 0:00, the track plays on to its own ending instead of being cut off.
 
 ## Scoring
 

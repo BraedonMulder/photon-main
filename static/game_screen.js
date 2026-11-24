@@ -34,7 +34,7 @@ function updateGameTimer()
     {
         clearInterval(gameTimer);
         console.log('Game over.');
-        stopMusic();
+        finishMusic();
 
         fetch('/api/end_game',
         {

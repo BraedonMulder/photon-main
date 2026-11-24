@@ -76,10 +76,10 @@ async function resumeMusic()
     }
 }
 
-// game screen: stop the music when the game ends
-function stopMusic()
+// game screen: when the game ends, let the track play out to its own ending
+// (each track keeps going for a few seconds after 0:00 and then fades out)
+function finishMusic()
 {
-    gameMusic.pause();
     sessionStorage.removeItem('music_track');
     sessionStorage.removeItem('music_time');
 }
